@@ -515,4 +515,32 @@ h1 {
   .features-grid {
     grid-template-columns: 1fr;
   }
+  /* Navigation */
+.navigation {
+  background: #1e293b;
+  padding: 15px 30px;
+  display: flex;
+  gap: 20px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.navigation button {
+  background: transparent;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+.navigation button:hover {
+  background: rgba(255,255,255,0.1);
+}
+
+.navigation button.active {
+  background: #22c55e;
+  color: white;
+}
 }

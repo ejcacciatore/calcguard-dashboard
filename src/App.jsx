@@ -1,8 +1,9 @@
 import { useState } from 'react'
+import TopologyDiagram from './TopologyDiagram'
 import './App.css'
 
 function App() {
-  const [selectedStage, setSelectedStage] = useState(null)
+  const [currentView, setCurrentView] = useState('dashboard');
 
   const stages = [
     { 
@@ -98,19 +99,23 @@ function App() {
     { icon: '🖥️', name: 'FDC3 Desktop', metric: 'v2.0 Compatible' }
   ]
 
-  return (
+   return (
     <div className="app">
-      {/* Header */}
-      <div className="header">
-        <div className="header-content">
-          <div className="logo">CG</div>
-          <div>
-            <h1>CalcGuard Order Routing Topology</h1>
-            <p className="subtitle">Real-time Trade Flow Visualization & Analytics</p>
-          </div>
-        </div>
-        <div className="timestamp">Last Updated: {new Date().toLocaleString()}</div>
-      </div>
+      {/* Navigation */}
+      <nav className="navigation">
+        <button 
+          className={currentView === 'dashboard' ? 'active' : ''}
+          onClick={() => setCurrentView('dashboard')}
+        >
+          Dashboard
+        </button>
+        <button 
+          className={currentView === 'topology' ? 'active' : ''}
+          onClick={() => setCurrentView('topology')}
+        >
+          Interactive Topology
+        </button>
+      </nav>
 
       {/* Metrics Dashboard */}
       <div className="metrics-dashboard">
@@ -251,10 +256,12 @@ function App() {
               </div>
             </div>
           </div>
-        </div>
+</div>
+      ) : (
+        <TopologyDiagram />
       )}
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
