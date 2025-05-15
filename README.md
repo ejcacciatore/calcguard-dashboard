@@ -1,3 +1,28 @@
+
+# CalcGuard Order Routing Dashboard
+
+🚀 **Live Demo**: [https://ejcacciatore.github.io/calcguard-dashboard](https://ejcacciatore.github.io/calcguard-dashboard)
+
+A real-time visualization of equity order routing topology with integrated analytics.
+
+## Features
+
+- Real-time order flow visualization
+- Market data provider monitoring
+- Interactive component details
+- Performance metrics dashboard
+- CalcGuard Analytics integration
+
+## Technology Stack
+
+- React 18
+- Vite
+- CSS3
+- GitHub Pages
+
+Built by Eric J. Cacciatore
+
+
 # React + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.

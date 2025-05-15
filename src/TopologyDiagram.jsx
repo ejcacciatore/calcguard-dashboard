@@ -36,8 +36,8 @@ const initialNodes = [
   { id: 'ems-2', position: { x: 325, y: 500 }, data: { label: 'Bloomberg\nEMSX' }, style: { background: '#fff8e1', border: '2px solid #ffc107' } },
   { id: 'ems-3', position: { x: 475, y: 500 }, data: { label: 'Virtu\nTriton' }, style: { background: '#fff8e1', border: '2px solid #ffc107' } },
   
-  // Brokers
-  { id: 'broker-1', position: { x: 100, y: 650 }, data: { label: 'Goldman\nSachs' }, style: { background: '#ffebee', border: '2px solid '#f44336' } },
+  // Brokers - FIXED: Removed extra quote in border style
+  { id: 'broker-1', position: { x: 100, y: 650 }, data: { label: 'Goldman\nSachs' }, style: { background: '#ffebee', border: '2px solid #f44336' } },
   { id: 'broker-2', position: { x: 250, y: 650 }, data: { label: 'Morgan\nStanley' }, style: { background: '#ffebee', border: '2px solid #f44336' } },
   { id: 'broker-3', position: { x: 400, y: 650 }, data: { label: 'Instinet' }, style: { background: '#ffebee', border: '2px solid #f44336' } },
   { id: 'broker-4', position: { x: 550, y: 650 }, data: { label: 'Loop\nCapital' }, style: { background: '#ffebee', border: '2px solid #f44336' } },

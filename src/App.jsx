@@ -4,6 +4,7 @@ import './App.css'
 
 function App() {
   const [currentView, setCurrentView] = useState('dashboard');
+  const [selectedStage, setSelectedStage] = useState(null)
 
   const stages = [
     { 
@@ -99,7 +100,7 @@ function App() {
     { icon: '🖥️', name: 'FDC3 Desktop', metric: 'v2.0 Compatible' }
   ]
 
-   return (
+  return (
     <div className="app">
       {/* Navigation */}
       <nav className="navigation">
@@ -117,151 +118,168 @@ function App() {
         </button>
       </nav>
 
-      {/* Metrics Dashboard */}
-      <div className="metrics-dashboard">
-        <div className="metric-card">
-          <div className="metric-title">Orders/Second</div>
-          <div className="metric-value">12,847</div>
-          <div className="metric-trend positive">↑ 15%</div>
-        </div>
-        <div className="metric-card">
-          <div className="metric-title">Average Latency</div>
-          <div className="metric-value">1.2ms</div>
-          <div className="metric-trend positive">↓ 8%</div>
-        </div>
-        <div className="metric-card">
-          <div className="metric-title">Fill Rate</div>
-          <div className="metric-value">98.7%</div>
-          <div className="metric-trend positive">↑ 0.3%</div>
-        </div>
-        <div className="metric-card">
-          <div className="metric-title">Active Venues</div>
-          <div className="metric-value">47</div>
-          <div className="metric-trend neutral">→ 0%</div>
-        </div>
-      </div>
-      
-      {/* Market Data Section */}
-      <div className="market-data-section">
-        <h3>Market Data Providers</h3>
-        <div className="providers-grid">
-          {marketDataProviders.map(provider => (
-            <div key={provider.name} className="provider-card">
-              <div className="provider-header">
-                <span className="provider-name">{provider.name}</span>
-                <span className="status-indicator active"></span>
-              </div>
-              <div className="provider-metric">{provider.latency}</div>
-            </div>
-          ))}
-        </div>
-      </div>
-      
-      {/* Order Flow */}
-      <div className="flow-container">
-        {stages.map((stage, index) => (
-          <div key={stage.id} className="stage-wrapper">
-            <div 
-              className="stage"
-              style={{ 
-                borderColor: stage.color,
-                backgroundColor: stage.color + '10'
-              }}
-              onClick={() => setSelectedStage(stage)}
-            >
-              <div className="stage-header">
-                <span className="stage-icon">{stage.icon}</span>
-                <span className="stage-metric">{stage.metrics}</span>
-              </div>
-              <h4>{stage.name}</h4>
-              <div className="systems-preview">
-                {stage.systems.slice(0, 3).map(sys => (
-                  <span key={sys} className="system-tag">{sys}</span>
-                ))}
-                {stage.systems.length > 3 && 
-                  <span className="more">+{stage.systems.length - 3} more</span>
-                }
+      {/* Content */}
+      {currentView === 'dashboard' ? (
+        <>
+          {/* Header */}
+          <div className="header">
+            <div className="header-content">
+              <div className="logo">CG</div>
+              <div>
+                <h1>CalcGuard Order Routing Topology</h1>
+                <p className="subtitle">Real-time Trade Flow Visualization & Analytics</p>
               </div>
             </div>
-            {index < stages.length - 1 && <span className="arrow">→</span>}
+            <div className="timestamp">Last Updated: {new Date().toLocaleString()}</div>
           </div>
-        ))}
-      </div>
 
-      {/* CalcGuard Section */}
-      <div className="calcguard-section">
-        <div className="calcguard-header">
-          <span className="calcguard-logo">CG</span>
-          <h2>CalcGuard Analytics Platform</h2>
-          <span className="status-badge">LIVE</span>
-        </div>
-        
-        <div className="features-grid">
-          {calcguardFeatures.map(feature => (
-            <div key={feature.name} className="feature-card">
-              <div className="feature-icon">{feature.icon}</div>
-              <div className="feature-content">
-                <div className="feature-name">{feature.name}</div>
-                <div className="feature-metric">{feature.metric}</div>
-              </div>
+          {/* Metrics Dashboard */}
+          <div className="metrics-dashboard">
+            <div className="metric-card">
+              <div className="metric-title">Orders/Second</div>
+              <div className="metric-value">12,847</div>
+              <div className="metric-trend positive">↑ 15%</div>
             </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Detail Panel */}
-      {selectedStage && (
-        <div className="detail-panel">
-          <button className="close-btn" onClick={() => setSelectedStage(null)}>×</button>
-          <div className="detail-header" style={{backgroundColor: selectedStage.color + '20'}}>
-            <span className="detail-icon">{selectedStage.icon}</span>
-            <h3 style={{color: selectedStage.color}}>{selectedStage.name}</h3>
+            <div className="metric-card">
+              <div className="metric-title">Average Latency</div>
+              <div className="metric-value">1.2ms</div>
+              <div className="metric-trend positive">↓ 8%</div>
+            </div>
+            <div className="metric-card">
+              <div className="metric-title">Fill Rate</div>
+              <div className="metric-value">98.7%</div>
+              <div className="metric-trend positive">↑ 0.3%</div>
+            </div>
+            <div className="metric-card">
+              <div className="metric-title">Active Venues</div>
+              <div className="metric-value">47</div>
+              <div className="metric-trend neutral">→ 0%</div>
+            </div>
           </div>
           
-          <div className="detail-content">
-            <p className="detail-description">{selectedStage.description}</p>
-            
-            <div className="detail-section">
-              <h4>Key Metrics</h4>
-              <div className="detail-metric">{selectedStage.metrics}</div>
-            </div>
-            
-            <div className="detail-section">
-              <h4>Systems & Platforms</h4>
-              <div className="systems-list">
-                {selectedStage.systems.map(system => (
-                  <div key={system} className="system-item">
-                    <span className="status-dot"></span>
-                    <span>{system}</span>
+          {/* Market Data Section */}
+          <div className="market-data-section">
+            <h3>Market Data Providers</h3>
+            <div className="providers-grid">
+              {marketDataProviders.map(provider => (
+                <div key={provider.name} className="provider-card">
+                  <div className="provider-header">
+                    <span className="provider-name">{provider.name}</span>
+                    <span className="status-indicator active"></span>
                   </div>
-                ))}
-              </div>
-            </div>
-            
-            <div className="detail-section">
-              <h4>Performance</h4>
-              <div className="performance-metrics">
-                <div className="perf-item">
-                  <span>Throughput:</span>
-                  <span>{Math.floor(Math.random() * 10000 + 5000)}/sec</span>
+                  <div className="provider-metric">{provider.latency}</div>
                 </div>
-                <div className="perf-item">
-                  <span>Latency:</span>
-                  <span>{(Math.random() * 2 + 0.5).toFixed(1)}ms</span>
-                </div>
-                <div className="perf-item">
-                  <span>Uptime:</span>
-                  <span>99.{Math.floor(Math.random() * 9 + 90)}%</span>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
-</div>
+          
+          {/* Order Flow */}
+          <div className="flow-container">
+            {stages.map((stage, index) => (
+              <div key={stage.id} className="stage-wrapper">
+                <div 
+                  className="stage"
+                  style={{ 
+                    borderColor: stage.color,
+                    backgroundColor: stage.color + '10'
+                  }}
+                  onClick={() => setSelectedStage(stage)}
+                >
+                  <div className="stage-header">
+                    <span className="stage-icon">{stage.icon}</span>
+                    <span className="stage-metric">{stage.metrics}</span>
+                  </div>
+                  <h4>{stage.name}</h4>
+                  <div className="systems-preview">
+                    {stage.systems.slice(0, 3).map(sys => (
+                      <span key={sys} className="system-tag">{sys}</span>
+                    ))}
+                    {stage.systems.length > 3 && 
+                      <span className="more">+{stage.systems.length - 3} more</span>
+                    }
+                  </div>
+                </div>
+                {index < stages.length - 1 && <span className="arrow">→</span>}
+              </div>
+            ))}
+          </div>
+
+          {/* CalcGuard Section */}
+          <div className="calcguard-section">
+            <div className="calcguard-header">
+              <span className="calcguard-logo">CG</span>
+              <h2>CalcGuard Analytics Platform</h2>
+              <span className="status-badge">LIVE</span>
+            </div>
+            
+            <div className="features-grid">
+              {calcguardFeatures.map(feature => (
+                <div key={feature.name} className="feature-card">
+                  <div className="feature-icon">{feature.icon}</div>
+                  <div className="feature-content">
+                    <div className="feature-name">{feature.name}</div>
+                    <div className="feature-metric">{feature.metric}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Detail Panel */}
+          {selectedStage && (
+            <div className="detail-panel">
+              <button className="close-btn" onClick={() => setSelectedStage(null)}>×</button>
+              <div className="detail-header" style={{backgroundColor: selectedStage.color + '20'}}>
+                <span className="detail-icon">{selectedStage.icon}</span>
+                <h3 style={{color: selectedStage.color}}>{selectedStage.name}</h3>
+              </div>
+              
+              <div className="detail-content">
+                <p className="detail-description">{selectedStage.description}</p>
+                
+                <div className="detail-section">
+                  <h4>Key Metrics</h4>
+                  <div className="detail-metric">{selectedStage.metrics}</div>
+                </div>
+                
+                <div className="detail-section">
+                  <h4>Systems & Platforms</h4>
+                  <div className="systems-list">
+                    {selectedStage.systems.map(system => (
+                      <div key={system} className="system-item">
+                        <span className="status-dot"></span>
+                        <span>{system}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                
+                <div className="detail-section">
+                  <h4>Performance</h4>
+                  <div className="performance-metrics">
+                    <div className="perf-item">
+                      <span>Throughput:</span>
+                      <span>{Math.floor(Math.random() * 10000 + 5000)}/sec</span>
+                    </div>
+                    <div className="perf-item">
+                      <span>Latency:</span>
+                      <span>{(Math.random() * 2 + 0.5).toFixed(1)}ms</span>
+                    </div>
+                    <div className="perf-item">
+                      <span>Uptime:</span>
+                      <span>99.{Math.floor(Math.random() * 9 + 90)}%</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+        </>
       ) : (
         <TopologyDiagram />
       )}
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
