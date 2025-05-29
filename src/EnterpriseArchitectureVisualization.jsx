@@ -19,8 +19,8 @@ function EnterpriseArchitectureVisualization() {
         type: 'Institutional Asset Manager',
         layer: 1,
         color: '#1e40af',
-        x: 120,
-        y: 100,
+        x: 100,
+        y: 80,
         connections: ['ssga-oms'],
         description: 'Global institutional asset manager with proprietary technology stack and comprehensive investment solutions.',
         keyMetrics: { aum: '$4.1T', clients: '1,200+', strategies: '300+' }
@@ -35,8 +35,8 @@ function EnterpriseArchitectureVisualization() {
         type: 'Municipal Pension Fund',
         layer: 1,
         color: '#dc2626',
-        x: 320,
-        y: 100,
+        x: 350,
+        y: 80,
         connections: ['northern-trust'],
         description: 'Large municipal retirement system serving Illinois public employees with diversified investment mandate.',
         keyMetrics: { aum: '$65B', members: '180K', plans: '650+' }
@@ -51,8 +51,8 @@ function EnterpriseArchitectureVisualization() {
         type: 'Value Investment Manager',
         layer: 1,
         color: '#059669',
-        x: 520,
-        y: 100,
+        x: 600,
+        y: 80,
         connections: ['charles-river'],
         description: 'Specialized value investment manager serving as subadvisor with disciplined investment approach.',
         keyMetrics: { aum: '$8.2B', experience: '45+ years', focus: 'Value Equity' }
@@ -69,8 +69,8 @@ function EnterpriseArchitectureVisualization() {
         type: 'Internal OMS Platform',
         layer: 2,
         color: '#b91c1c',
-        x: 120,
-        y: 180,
+        x: 100,
+        y: 200,
         connections: ['newport-ssga'],
         notConnected: true,
         description: 'Proprietary order management system with integrated portfolio management and risk controls.',
@@ -85,8 +85,8 @@ function EnterpriseArchitectureVisualization() {
         type: 'Investment Management Platform',
         layer: 2,
         color: '#7c3aed',
-        x: 520,
-        y: 180,
+        x: 600,
+        y: 200,
         connections: ['castle-oak', 'goldman', 'instinet'],
         description: 'Leading investment management technology platform with comprehensive order and portfolio management.',
         keyMetrics: { firms: '500+', aum: '$45T+', coverage: 'Global' }
@@ -100,8 +100,8 @@ function EnterpriseArchitectureVisualization() {
         type: 'Technology Services Provider',
         layer: 2,
         color: '#0891b2',
-        x: 320,
-        y: 180,
+        x: 350,
+        y: 200,
         connections: ['flextrade'],
         description: 'Comprehensive investment technology and outsourced trading services for institutional clients.',
         keyMetrics: { custody: '$13.4T', clients: '20K+', countries: '100+' }
@@ -118,8 +118,8 @@ function EnterpriseArchitectureVisualization() {
         type: 'Algorithmic Execution Platform',
         layer: 3,
         color: '#1e40af',
-        x: 120,
-        y: 280,
+        x: 100,
+        y: 320,
         connections: ['fidelity-sb', 'instinet'],
         description: 'Sophisticated execution management with custom algorithm wheels: POV, Lit Storm, Auto Route, Waterfall.',
         keyMetrics: { algorithms: '50+', venues: '200+', latency: '<1ms' }
@@ -133,8 +133,8 @@ function EnterpriseArchitectureVisualization() {
         type: 'Cross-Asset Execution Platform',
         layer: 3,
         color: '#ea580c',
-        x: 320,
-        y: 280,
+        x: 350,
+        y: 320,
         connections: ['loop', 'goldman'],
         description: 'Multi-asset execution management system supporting equities, fixed income, FX, and derivatives.',
         keyMetrics: { assets: 'Multi-Asset', coverage: 'Global', clients: '500+' }
@@ -149,7 +149,7 @@ function EnterpriseArchitectureVisualization() {
         layer: 3,
         color: '#be185d',
         x: 220,
-        y: 360,
+        y: 420,
         connections: ['goldman'],
         description: 'Loop Capital configured Newport EMS instance for specialized execution strategies.',
         keyMetrics: { focus: 'Specialized', routing: 'Smart', integration: 'Seamless' }
@@ -166,8 +166,8 @@ function EnterpriseArchitectureVisualization() {
         type: 'Execution Technology Stack',
         layer: 3.5,
         color: '#7c3aed',
-        x: 120,
-        y: 360,
+        x: 100,
+        y: 420,
         connections: ['fsb-venues'],
         description: 'Advanced execution technology with SDP, Private Rooms, POV algorithms, and customizable dark/lit routing.',
         keyMetrics: { algorithms: 'Custom', rooms: 'Private', routing: 'Intelligent' }
@@ -181,8 +181,8 @@ function EnterpriseArchitectureVisualization() {
         type: 'Machine Learning Platform',
         layer: 3.5,
         color: '#1e40af',
-        x: 520,
-        y: 360,
+        x: 600,
+        y: 420,
         connections: ['castle-oak'],
         description: 'AI-powered execution algorithms and trading intelligence platform with machine learning optimization.',
         keyMetrics: { ai: 'Advanced ML', optimization: 'Real-time', performance: 'Superior' }
@@ -199,8 +199,8 @@ function EnterpriseArchitectureVisualization() {
         type: 'Institutional Broker Dealer',
         layer: 4,
         color: '#be185d',
-        x: 220,
-        y: 440,
+        x: 150,
+        y: 520,
         connections: ['newport-loop'],
         description: 'Specialized institutional broker dealer focusing on diverse investment strategies and client solutions.',
         keyMetrics: { focus: 'Institutional', specialty: 'Diverse Strategies', scale: 'Mid-Size' }
@@ -214,8 +214,8 @@ function EnterpriseArchitectureVisualization() {
         type: 'Global Investment Bank',
         layer: 4,
         color: '#1f2937',
-        x: 320,
-        y: 440,
+        x: 300,
+        y: 520,
         connections: ['goldman-venues'],
         description: 'Premier global investment bank providing comprehensive execution, prime brokerage, and capital markets services.',
         keyMetrics: { revenue: '$47B+', global: '40+ countries', services: 'Full Service' }
@@ -229,8 +229,8 @@ function EnterpriseArchitectureVisualization() {
         type: 'Technology-Driven Broker',
         layer: 4,
         color: '#dc2626',
-        x: 520,
-        y: 440,
+        x: 600,
+        y: 520,
         connections: ['castle-venues'],
         description: 'Technology-focused broker dealer with proprietary Pragma-powered execution algorithms and specialized routing.',
         keyMetrics: { technology: 'Proprietary', focus: 'Execution', innovation: 'AI-Driven' }
@@ -244,8 +244,8 @@ function EnterpriseArchitectureVisualization() {
         type: 'Electronic Trading Specialist',
         layer: 4,
         color: '#6b7280',
-        x: 420,
-        y: 440,
+        x: 450,
+        y: 520,
         connections: ['instinet-venues'],
         description: 'Leading electronic trading specialist providing agency execution services and market structure innovation.',
         keyMetrics: { model: 'Agency', innovation: 'Electronic', focus: 'Institutional' }
@@ -262,8 +262,8 @@ function EnterpriseArchitectureVisualization() {
         type: 'ATS | Exchanges | SDP | Private Rooms',
         layer: 5,
         color: '#7c3aed',
-        x: 120,
-        y: 520,
+        x: 100,
+        y: 620,
         description: 'Comprehensive venue access including alternative trading systems, exchanges, and private execution rooms.'
       },
       {
@@ -275,8 +275,8 @@ function EnterpriseArchitectureVisualization() {
         type: 'Global Venues | Dark Pools | Exchanges',
         layer: 5,
         color: '#1f2937',
-        x: 320,
-        y: 520,
+        x: 300,
+        y: 620,
         description: 'Extensive global venue network including proprietary dark pools and comprehensive exchange connectivity.'
       },
       {
@@ -288,8 +288,8 @@ function EnterpriseArchitectureVisualization() {
         type: 'Crossing Networks | Dark Pools | ECNs',
         layer: 5,
         color: '#6b7280',
-        x: 420,
-        y: 520,
+        x: 450,
+        y: 620,
         description: 'Specialized electronic venues including crossing networks, dark pools, and electronic communication networks.'
       },
       {
@@ -301,8 +301,8 @@ function EnterpriseArchitectureVisualization() {
         type: 'Smart Routing | Alternative Venues',
         layer: 5,
         color: '#dc2626',
-        x: 520,
-        y: 520,
+        x: 600,
+        y: 620,
         description: 'Specialized execution venues with intelligent routing and access to alternative liquidity sources.'
       }
     ]
@@ -312,8 +312,8 @@ function EnterpriseArchitectureVisualization() {
     id: 'calcguard',
     name: 'CalcGuard',
     fullName: 'CalcGuard Neural Data Mesh Platform',
-    x: 320,
-    y: 310,
+    x: 350,
+    y: 350,
     color: '#1f2937',
     size: 50,
     description: 'Enterprise-grade distributed data mesh providing real-time transaction lifecycle visibility and neural pathway intelligence across the complete trading ecosystem.'
@@ -430,8 +430,8 @@ function EnterpriseArchitectureVisualization() {
               x={(fromEntity.x + toEntity.x) / 2}
               y={(fromEntity.y + toEntity.y) / 2 - 8}
               textAnchor="middle"
-              fontSize="11"
-              fontWeight="600"
+              fontSize="12"
+              fontWeight="700"
               fill={style.color}
               style={{ pointerEvents: 'none' }}
             >
@@ -597,7 +597,8 @@ function EnterpriseArchitectureVisualization() {
             position: 'relative'
           }}>
             
-            <svg width="700" height="600" style={{ overflow: 'visible' }}>
+                            </marker>
+
               <defs>
                 <marker id="arrowhead" markerWidth="10" markerHeight="8" 
                         refX="9" refY="4" orient="auto">
@@ -689,7 +690,7 @@ function EnterpriseArchitectureVisualization() {
                   >
                     {/* Entity background */}
                     <circle
-                      r={isHovered || isSelected ? "32" : "28"}
+                      r={isHovered || isSelected ? "35" : "30"}
                       fill={entity.notConnected ? '#fef2f2' : 'white'}
                       stroke={entity.color}
                       strokeWidth={entity.notConnected ? 4 : isHovered || isSelected ? 3 : 2}
@@ -705,10 +706,10 @@ function EnterpriseArchitectureVisualization() {
                       opacity={isHovered || isSelected ? "1" : "0.9"}
                     />
                     
-                    {/* Entity name */}
+                    {/* Entity name - move further down */}
                     <text
                       textAnchor="middle"
-                      dy="45"
+                      dy="50"  // was 45
                       fontSize="12"
                       fontWeight="700"
                       fill="#1e293b"
@@ -716,10 +717,10 @@ function EnterpriseArchitectureVisualization() {
                       {entity.name}
                     </text>
                     
-                    {/* Entity type */}
+                    {/* Entity type - move even further */}
                     <text
                       textAnchor="middle"
-                      dy="58"
+                      dy="65"  // was 58
                       fontSize="10"
                       fill="#64748b"
                       fontWeight="500"
