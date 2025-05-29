@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 
 function EnterpriseArchitectureVisualization() {
+  console.log('🚀 EnterpriseArchitectureVisualization component loaded!');
+  
   const [selectedNode, setSelectedNode] = useState(null);
   const [hoveredNode, setHoveredNode] = useState(null);
   const [activeFlowType, setActiveFlowType] = useState('all');
@@ -11,7 +13,9 @@ function EnterpriseArchitectureVisualization() {
   const [isPanning, setIsPanning] = useState(false);
   const [panStart, setPanStart] = useState({ x: 0, y: 0 });
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
-  // Make CalcGuard Neural Mesh label bigger and bolder, and pulse ring larger
+
+  console.log('🔍 Current zoom level:', zoomLevel);
+
   // Handle viewport resize
   useEffect(() => {
     const handleResize = () => {
@@ -33,15 +37,18 @@ function EnterpriseArchitectureVisualization() {
   // Zoom functions
   const handleZoomIn = () => {
     setZoomLevel(prev => Math.min(prev + 0.25, 3));
+    console.log('🔍+ Zoom In clicked, new level:', zoomLevel + 0.25);
   };
 
   const handleZoomOut = () => {
     setZoomLevel(prev => Math.max(prev - 0.25, 0.5));
+    console.log('🔍- Zoom Out clicked, new level:', zoomLevel - 0.25);
   };
 
   const handleResetZoom = () => {
     setZoomLevel(1);
     setPanOffset({ x: 0, y: 0 });
+    console.log('🔄 Zoom Reset clicked');
   };
 
   // Pan functionality
@@ -76,7 +83,6 @@ function EnterpriseArchitectureVisualization() {
         case 'Asset Management':
           return (
             <g>
-              {/* Portfolio/Asset Management Icon */}
               <rect x="-10" y="-8" width="20" height="16" rx="3" fill={iconColor} opacity="0.9"/>
               <rect x="-8" y="-6" width="4" height="12" rx="1" fill={entity.color} opacity="0.3"/>
               <rect x="-2" y="-4" width="4" height="10" rx="1" fill={entity.color} opacity="0.5"/>
@@ -89,7 +95,6 @@ function EnterpriseArchitectureVisualization() {
         case 'Outsourced Trading':
           return (
             <g>
-              {/* Order Management System Icon */}
               <rect x="-12" y="-9" width="24" height="18" rx="4" fill={iconColor} opacity="0.9"/>
               <rect x="-10" y="-7" width="20" height="3" rx="1" fill={entity.color} opacity="0.6"/>
               <rect x="-10" y="-2" width="14" height="3" rx="1" fill={entity.color} opacity="0.4"/>
@@ -103,7 +108,6 @@ function EnterpriseArchitectureVisualization() {
         case 'Algorithm Provider':
           return (
             <g>
-              {/* Execution/Technology Icon */}
               <polygon points="-10,-8 10,-8 12,-4 12,4 10,8 -10,8 -12,4 -12,-4" fill={iconColor} opacity="0.9"/>
               <rect x="-8" y="-6" width="16" height="12" rx="3" fill={entity.color} opacity="0.1"/>
               <circle cx="-4" cy="-2" r="3" fill={entity.color} opacity="0.6"/>
@@ -117,7 +121,6 @@ function EnterpriseArchitectureVisualization() {
         case 'Electronic Broker':
           return (
             <g>
-              {/* Broker/Trading Icon */}
               <circle cx="0" cy="0" r="12" fill={iconColor} opacity="0.9"/>
               <path d="M-8,-4 L-3,-4 L0,-8 L3,-4 L8,-4 L8,0 L3,0 L0,4 L-3,0 L-8,0 Z" fill={entity.color} opacity="0.7"/>
               <circle cx="0" cy="0" r="3" fill={entity.color} opacity="0.9"/>
@@ -128,7 +131,6 @@ function EnterpriseArchitectureVisualization() {
         case 'Execution Venues':
           return (
             <g>
-              {/* Venues/Exchange Icon */}
               <rect x="-10" y="-10" width="20" height="20" rx="5" fill={iconColor} opacity="0.9"/>
               <rect x="-8" y="-8" width="16" height="16" rx="3" fill={entity.color} opacity="0.1"/>
               <circle cx="-4" cy="-4" r="2" fill={entity.color} opacity="0.7"/>
@@ -602,6 +604,24 @@ function EnterpriseArchitectureVisualization() {
       width: '100%',
       overflow: 'hidden'
     }}>
+      
+      {/* DEBUG BANNER - Remove after testing */}
+      <div style={{
+        position: 'fixed',
+        top: '0',
+        left: '0',
+        right: '0',
+        background: 'red',
+        color: 'white',
+        padding: '10px',
+        zIndex: 9999,
+        textAlign: 'center',
+        fontSize: '16px',
+        fontWeight: 'bold'
+      }}>
+        🔧 COMPONENT LOADED - Zoom: {zoomLevel} - Time: {new Date().toLocaleTimeString()}
+      </div>
+
       {/* Executive Header */}
       <div style={{
         background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%)',
@@ -610,7 +630,8 @@ function EnterpriseArchitectureVisualization() {
         boxShadow: '0 20px 60px rgba(0,0,0,0.15)',
         width: '100%',
         boxSizing: 'border-box',
-        borderBottom: '1px solid rgba(255,255,255,0.1)'
+        borderBottom: '1px solid rgba(255,255,255,0.1)',
+        marginTop: '60px' /* Account for debug banner */
       }}>
         <div style={{ maxWidth: '1600px', margin: '0 auto', width: '100%' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -668,143 +689,141 @@ function EnterpriseArchitectureVisualization() {
               </div>
             </div>
 
-{/* Controls Wrapper */}
-<div>
-  {/* Zoom Controls */}
-  <div className="zoom-controls">
-    <button
-      onClick={handleZoomOut}
-      style={{
-        padding: '8px 12px',
-        background: 'rgba(255,255,255,0.1)',
-        color: 'white',
-        border: '1px solid rgba(255,255,255,0.2)',
-        borderRadius: '8px',
-        fontSize: '14px',
-        fontWeight: '600',
-        cursor: 'pointer',
-        transition: 'all 0.2s ease'
-      }}
-    >
-      🔍−
-    </button>
-    <span style={{ 
-      fontSize: '14px', 
-      fontWeight: '600', 
-      minWidth: '60px', 
-      textAlign: 'center',
-      color: 'white'
-    }}>
-      {Math.round(zoomLevel * 100)}%
-    </span>
-    <button
-      onClick={handleZoomIn}
-      style={{
-        padding: '8px 12px',
-        background: 'rgba(255,255,255,0.1)',
-        color: 'white',
-        border: '1px solid rgba(255,255,255,0.2)',
-        borderRadius: '8px',
-        fontSize: '14px',
-        fontWeight: '600',
-        cursor: 'pointer',
-        transition: 'all 0.2s ease'
-      }}
-    >
-      🔍+
-    </button>
-    <button
-      onClick={handleResetZoom}
-      style={{
-        padding: '8px 12px',
-        background: 'rgba(255,255,255,0.1)',
-        color: 'white',
-        border: '1px solid rgba(255,255,255,0.2)',
-        borderRadius: '8px',
-        fontSize: '12px',
-        fontWeight: '600',
-        cursor: 'pointer',
-        transition: 'all 0.2s ease'
-      }}
-    >
-      Reset
-    </button>
-    <button
-      onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
-      style={{
-        padding: '8px 12px',
-        background: 'rgba(255,255,255,0.1)',
-        color: 'white',
-        border: '1px solid rgba(255,255,255,0.2)',
-        borderRadius: '8px',
-        fontSize: '12px',
-        fontWeight: '600',
-        cursor: 'pointer',
-        transition: 'all 0.2s ease'
-      }}
-    >
-      {sidebarCollapsed ? '◀ Show' : 'Hide ▶'}
-    </button>
-  </div>
-
-  {/* Interactive Controls */}
-  <div style={{ display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap', marginTop: '16px' }}>
-    <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-      {[
-        { key: 'all', label: 'Complete Architecture', color: '#ffffff', icon: '◉' },
-        { key: 'execution', label: 'Execution Flows', color: '#ef4444', icon: '→' },
-        { key: 'data', label: 'Data Visibility', color: '#22c55e', icon: '◈' },
-        { key: 'neural', label: 'Neural Network', color: '#94a3b8', icon: '◊' }
-      ].map(({ key, label, color, icon }) => (
-        <button
-          key={key}
-          onClick={() => setActiveFlowType(key)}
-          style={{
-            padding: '8px 14px',
-            backgroundColor: activeFlowType === key ? color : 'rgba(255,255,255,0.1)',
-            color: activeFlowType === key ? '#0f172a' : 'white',
-            border: `2px solid ${activeFlowType === key ? color : 'rgba(255,255,255,0.2)'}`,
-            borderRadius: '10px',
-            fontSize: '12px',
-            fontWeight: '600',
-            cursor: 'pointer',
-            transition: 'all 0.3s ease',
-            backdropFilter: 'blur(10px)',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '6px',
-            boxShadow: activeFlowType === key ? `0 4px 16px ${color}40` : 'none'
-          }}
-        >
-          <span>{icon}</span>
-          {label}
-        </button>
-      ))}
-    </div>
-    
-    <button
-      onClick={() => setShowDetails(!showDetails)}
-      style={{
-        padding: '8px 14px',
-        backgroundColor: showDetails ? '#ffffff' : 'rgba(255,255,255,0.1)',
-        color: showDetails ? '#0f172a' : 'white',
-        border: '2px solid rgba(255,255,255,0.2)',
-        borderRadius: '10px',
-        fontSize: '12px',
-        fontWeight: '600',
-        cursor: 'pointer',
-        transition: 'all 0.3s ease',
-        backdropFilter: 'blur(10px)',
-        display: 'flex',
-        alignItems: 'center',
-        gap: '6px'
-      }}
-    >
-      <span>{showDetails ? '◉' : '○'}</span>
-      {showDetails ? 'Hide Details' : 'Show Details'}
-    </button>
-  </div>
-</div>
+            {/* Zoom Controls */}
+            <div className="zoom-controls" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <button
+                onClick={handleZoomOut}
+                style={{
+                  padding: '8px 12px',
+                  background: 'rgba(255,255,255,0.1)',
+                  color: 'white',
+                  border: '1px solid rgba(255,255,255,0.2)',
+                  borderRadius: '8px',
+                  fontSize: '14px',
+                  fontWeight: '600',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease'
+                }}
+              >
+                🔍−
+              </button>
+              <span style={{ 
+                fontSize: '14px', 
+                fontWeight: '600', 
+                minWidth: '60px', 
+                textAlign: 'center',
+                color: 'white'
+              }}>
+                {Math.round(zoomLevel * 100)}%
+              </span>
+              <button
+                onClick={handleZoomIn}
+                style={{
+                  padding: '8px 12px',
+                  background: 'rgba(255,255,255,0.1)',
+                  color: 'white',
+                  border: '1px solid rgba(255,255,255,0.2)',
+                  borderRadius: '8px',
+                  fontSize: '14px',
+                  fontWeight: '600',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease'
+                }}
+              >
+                🔍+
+              </button>
+              <button
+                onClick={handleResetZoom}
+                style={{
+                  padding: '8px 12px',
+                  background: 'rgba(255,255,255,0.1)',
+                  color: 'white',
+                  border: '1px solid rgba(255,255,255,0.2)',
+                  borderRadius: '8px',
+                  fontSize: '12px',
+                  fontWeight: '600',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease'
+                }}
+              >
+                Reset
+              </button>
+              <button
+                onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
+                style={{
+                  padding: '8px 12px',
+                  background: 'rgba(255,255,255,0.1)',
+                  color: 'white',
+                  border: '1px solid rgba(255,255,255,0.2)',
+                  borderRadius: '8px',
+                  fontSize: '12px',
+                  fontWeight: '600',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease'
+                }}
+              >
+                {sidebarCollapsed ? '◀ Show' : 'Hide ▶'}
+              </button>
+            </div>
+          </div>
+          
+          {/* Interactive Controls */}
+          <div style={{ display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap', marginTop: '16px' }}>
+            <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+              {[
+                { key: 'all', label: 'Complete Architecture', color: '#ffffff', icon: '◉' },
+                { key: 'execution', label: 'Execution Flows', color: '#ef4444', icon: '→' },
+                { key: 'data', label: 'Data Visibility', color: '#22c55e', icon: '◈' },
+                { key: 'neural', label: 'Neural Network', color: '#94a3b8', icon: '◊' }
+              ].map(({ key, label, color, icon }) => (
+                <button
+                  key={key}
+                  onClick={() => setActiveFlowType(key)}
+                  style={{
+                    padding: '8px 14px',
+                    backgroundColor: activeFlowType === key ? color : 'rgba(255,255,255,0.1)',
+                    color: activeFlowType === key ? '#0f172a' : 'white',
+                    border: `2px solid ${activeFlowType === key ? color : 'rgba(255,255,255,0.2)'}`,
+                    borderRadius: '10px',
+                    fontSize: '12px',
+                    fontWeight: '600',
+                    cursor: 'pointer',
+                    transition: 'all 0.3s ease',
+                    backdropFilter: 'blur(10px)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    boxShadow: activeFlowType === key ? `0 4px 16px ${color}40` : 'none'
+                  }}
+                >
+                  <span>{icon}</span>
+                  {label}
+                </button>
+              ))}
+            </div>
+            
+            <button
+              onClick={() => setShowDetails(!showDetails)}
+              style={{
+                padding: '8px 14px',
+                backgroundColor: showDetails ? '#ffffff' : 'rgba(255,255,255,0.1)',
+                color: showDetails ? '#0f172a' : 'white',
+                border: '2px solid rgba(255,255,255,0.2)',
+                borderRadius: '10px',
+                fontSize: '12px',
+                fontWeight: '600',
+                cursor: 'pointer',
+                transition: 'all 0.3s ease',
+                backdropFilter: 'blur(10px)',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '6px'
+              }}
+            >
+              <span>{showDetails ? '◉' : '○'}</span>
+              {showDetails ? 'Hide Details' : 'Show Details'}
+            </button>
+          </div>
         </div>
       </div>
 
@@ -812,7 +831,7 @@ function EnterpriseArchitectureVisualization() {
       <div style={{ 
         padding: '0',
         width: '100%',
-        height: 'calc(100vh - 150px)',
+        height: 'calc(100vh - 200px)',
         display: 'flex',
         overflow: 'hidden'
       }}>
@@ -851,6 +870,10 @@ function EnterpriseArchitectureVisualization() {
               </div>
               Flow Classification
             </h3>
+            
+            <div style={{ fontSize: '14px', color: '#64748b', marginBottom: '16px' }}>
+              Current Zoom: <strong>{Math.round(zoomLevel * 100)}%</strong>
+            </div>
             
             {[
               { color: '#dc2626', label: 'Primary Execution', description: 'Core order routing and execution flows', icon: '→' },
@@ -904,7 +927,7 @@ function EnterpriseArchitectureVisualization() {
           </div>
         )}
 
-        {/* Main Diagram - Much Larger */}
+        {/* Main Diagram */}
         <div style={{
           flex: 1,
           background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
@@ -960,63 +983,14 @@ function EnterpriseArchitectureVisualization() {
               {/* Render flows */}
               {renderFlows()}
 
-              {/* CalcGuard Neural Hub - Larger */}
+              {/* CalcGuard Neural Hub */}
               <g transform={`translate(${scaleX(calcguardNode.x)},${scaleY(calcguardNode.y)})`}>
-                {/* Outer pulse ring */}
-                <circle
-                  r="90"
-                  fill="none"
-                  stroke="#0f172a"
-                  strokeWidth="3"
-                  strokeOpacity="0.15"
-                  strokeDasharray="20,10"
-                >
-                  <animate attributeName="r" values="85;100;85" dur="10s" repeatCount="indefinite" />
-                  <animate attributeName="stroke-opacity" values="0.1;0.4;0.1" dur="10s" repeatCount="indefinite" />
-                </circle>
-                
-                {/* Middle ring */}
-                <circle
-                  r="65"
-                  fill="none"
-                  stroke="#1e293b"
-                  strokeWidth="2"
-                  strokeOpacity="0.25"
-                  strokeDasharray="15,20"
-                >
-                  <animate attributeName="r" values="60;70;60" dur="8s" repeatCount="indefinite" />
-                </circle>
-                
-                {/* Core hub - Larger */}
-                <circle
-                  r="45"
-                  fill="url(#meshGradient)"
-                  stroke="white"
-                  strokeWidth="5"
-                  filter="url(#shadow)"
-                  style={{ cursor: 'pointer' }}
-                  onClick={() => setSelectedNode(calcguardNode)}
-                  onMouseEnter={() => setHoveredNode('calcguard')}
-                  onMouseLeave={() => setHoveredNode(null)}
-                />
-                
-                {/* Professional center icon - Larger */}
-                <g transform="scale(1.5)">
-                  <rect x="-15" y="-15" width="30" height="30" rx="8" fill="white" opacity="0.9"/>
-                  <rect x="-12" y="-12" width="24" height="24" rx="6" fill="none" stroke="#0f172a" strokeWidth="2"/>
-                  <circle cx="-6" cy="-6" r="3" fill="#3b82f6"/>
-                  <circle cx="6" cy="-6" r="3" fill="#3b82f6"/>
-                  <circle cx="-6" cy="6" r="3" fill="#3b82f6"/>
-                  <circle cx="6" cy="6" r="3" fill="#3b82f6"/>
-                  <rect x="-3" y="-3" width="6" height="6" rx="3" fill="#0f172a"/>
-                </g>
-                
                 <text textAnchor="middle" dy="68" fontSize="16" fontWeight="700" fill="#0f172a">
                   CalcGuard Neural Mesh
                 </text>
               </g>
 
-              {/* Render entities - Larger spacing */}
+              {/* Render entities */}
               {Object.values(entities).flat().map(entity => {
                 const isHovered = hoveredNode === entity.id;
                 const isSelected = selectedNode?.id === entity.id;
@@ -1030,7 +1004,6 @@ function EnterpriseArchitectureVisualization() {
                     onMouseEnter={() => setHoveredNode(entity.id)}
                     onMouseLeave={() => setHoveredNode(null)}
                   >
-                    {/* Entity background with gradient - Larger */}
                     <circle
                       r={isHovered || isSelected ? "42" : "36"}
                       fill={entity.notConnected ? '#fef2f2' : 'url(#entityGradient)'}
@@ -1044,7 +1017,6 @@ function EnterpriseArchitectureVisualization() {
                       }}
                     />
                     
-                    {/* Entity professional icon - Larger */}
                     <g transform="scale(1.2)">
                       <circle
                         r="22"
@@ -1055,7 +1027,6 @@ function EnterpriseArchitectureVisualization() {
                       {renderIcon(entity, isHovered, isSelected)}
                     </g>
                     
-                    {/* Entity name with better typography - More space */}
                     <text
                       textAnchor="middle"
                       dy="58"
@@ -1070,7 +1041,6 @@ function EnterpriseArchitectureVisualization() {
                       {entity.name}
                     </text>
                     
-                    {/* Entity type with professional styling - More space */}
                     <text
                       textAnchor="middle"
                       dy="75"
@@ -1085,93 +1055,6 @@ function EnterpriseArchitectureVisualization() {
                     >
                       {entity.tier}
                     </text>
-                    
-                    {/* Connection indicator with professional styling */}
-                    {entity.notConnected && (
-                      <g>
-                        <circle
-                          r="10"
-                          cx="28"
-                          cy="-28"
-                          fill="#dc2626"
-                          stroke="white"
-                          strokeWidth="3"
-                          filter="url(#shadow)"
-                        />
-                        <text
-                          x="28"
-                          y="-23"
-                          textAnchor="middle"
-                          fontSize="12"
-                          fontWeight="700"
-                          fill="white"
-                        >
-                          !
-                        </text>
-                      </g>
-                    )}
-                    
-                    {/* Professional hover details - Larger */}
-                    {isHovered && showDetails && (
-                      <g>
-                        <rect
-                          x="-100"
-                          y="-130"
-                          width="200"
-                          height="85"
-                          fill="#0f172a"
-                          rx="15"
-                          opacity="0.96"
-                          filter="url(#shadow)"
-                        />
-                        <rect
-                          x="-98"
-                          y="-128"
-                          width="196"
-                          height="81"
-                          fill="none"
-                          stroke="rgba(255,255,255,0.1)"
-                          strokeWidth="1"
-                          rx="14"
-                        />
-                        <text
-                          textAnchor="middle"
-                          dy="-100"
-                          fontSize="13"
-                          fontWeight="700"
-                          fill="white"
-                          style={{ fontFamily: '"Inter", sans-serif' }}
-                        >
-                          {entity.fullName}
-                        </text>
-                        <text
-                          textAnchor="middle"
-                          dy="-83"
-                          fontSize="10"
-                          fill="#cbd5e1"
-                          fontWeight="500"
-                          style={{ 
-                            fontFamily: '"Inter", sans-serif',
-                            textTransform: 'uppercase',
-                            letterSpacing: '0.05em'
-                          }}
-                        >
-                          {entity.type}
-                        </text>
-                        {entity.aum && (
-                          <text
-                            textAnchor="middle"
-                            dy="-65"
-                            fontSize="12"
-                            fontWeight="600"
-                            fill="#22c55e"
-                            style={{ fontFamily: '"Inter", sans-serif' }}
-                          >
-                            AUM: {entity.aum}
-                          </text>
-                        )}
-                      </g>
-                    )}
                   </g>
                 );
               })}
@@ -1179,238 +1062,6 @@ function EnterpriseArchitectureVisualization() {
           </svg>
         </div>
       </div>
-
-      {/* Executive Details Panel */}
-      {selectedNode && (
-        <div style={{
-          position: 'fixed',
-          top: '0',
-          right: '0',
-          width: '420px',
-          height: '100vh',
-          background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
-          boxShadow: '-20px 0 80px rgba(0,0,0,0.15)',
-          zIndex: 1000,
-          overflowY: 'auto',
-          borderLeft: '1px solid rgba(226,232,240,0.8)'
-        }}>
-          <div style={{
-            background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%)',
-            color: 'white',
-            padding: '32px',
-            position: 'relative'
-          }}>
-            <button 
-              onClick={() => setSelectedNode(null)}
-              style={{
-                position: 'absolute',
-                top: '20px',
-                right: '20px',
-                background: 'rgba(255,255,255,0.1)',
-                border: 'none',
-                borderRadius: '50%',
-                width: '40px',
-                height: '40px',
-                cursor: 'pointer',
-                fontSize: '20px',
-                color: 'white',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                backdropFilter: 'blur(10px)',
-                transition: 'all 0.2s ease'
-              }}
-              onMouseEnter={(e) => e.target.style.background = 'rgba(255,255,255,0.2)'}
-              onMouseLeave={(e) => e.target.style.background = 'rgba(255,255,255,0.1)'}
-            >
-              ×
-            </button>
-            
-            <div style={{
-              width: '64px',
-              height: '64px',
-              background: `linear-gradient(135deg, ${selectedNode.color || '#0f172a'}, ${selectedNode.color || '#0f172a'}dd)`,
-              borderRadius: '16px',
-              marginBottom: '20px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontSize: '24px',
-              fontWeight: '700',
-              color: 'white',
-              boxShadow: '0 8px 32px rgba(0,0,0,0.3)',
-              border: '2px solid rgba(255,255,255,0.1)'
-            }}>
-              {selectedNode.name === 'CalcGuard' ? '⚡' : selectedNode.name?.charAt(0)}
-            </div>
-            
-            <h2 style={{
-              margin: '0 0 8px 0',
-              fontSize: '22px',
-              fontWeight: '700',
-              fontFamily: '"Inter", sans-serif',
-              letterSpacing: '-0.02em'
-            }}>
-              {selectedNode.fullName}
-            </h2>
-            
-            <div style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '8px',
-              padding: '6px 16px',
-              borderRadius: '20px',
-              fontSize: '12px',
-              fontWeight: '700',
-              background: 'linear-gradient(135deg, rgba(255,255,255,0.2), rgba(255,255,255,0.1))',
-              textTransform: 'uppercase',
-              letterSpacing: '0.05em',
-              marginBottom: '16px',
-              border: '1px solid rgba(255,255,255,0.1)'
-            }}>
-              <span style={{ fontSize: '10px' }}>●</span>
-              {selectedNode.category || selectedNode.type}
-            </div>
-            
-            {selectedNode.tier && (
-              <div style={{
-                fontSize: '14px',
-                opacity: '0.9',
-                fontWeight: '600',
-                fontFamily: '"Inter", sans-serif'
-              }}>
-                {selectedNode.tier}
-                {selectedNode.aum && ` • ${selectedNode.aum} AUM`}
-              </div>
-            )}
-          </div>
-          
-          <div style={{ padding: '32px' }}>
-            <div style={{
-              fontSize: '15px',
-              lineHeight: '1.6',
-              color: '#475569',
-              marginBottom: '32px',
-              fontFamily: '"Inter", sans-serif'
-            }}>
-              {selectedNode.description}
-            </div>
-            
-            {selectedNode.notConnected && (
-              <div style={{
-                background: 'linear-gradient(135deg, #fef2f2, #fee2e2)',
-                color: '#b91c1c',
-                padding: '16px 20px',
-                borderRadius: '12px',
-                fontSize: '14px',
-                fontWeight: '600',
-                marginBottom: '32px',
-                border: '2px solid #fecaca',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '12px'
-              }}>
-                <span style={{ fontSize: '18px' }}>⚠️</span>
-                <span>Not integrated with CalcGuard data mesh platform</span>
-              </div>
-            )}
-            
-            {selectedNode.keyMetrics && (
-              <div style={{ marginBottom: '32px' }}>
-                <h4 style={{
-                  margin: '0 0 16px 0',
-                  fontSize: '16px',
-                  fontWeight: '700',
-                  color: '#0f172a',
-                  fontFamily: '"Inter", sans-serif',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '8px'
-                }}>
-                  <span style={{ fontSize: '16px' }}>📊</span>
-                  Key Metrics
-                </h4>
-                <div style={{
-                  display: 'grid',
-                  gridTemplateColumns: '1fr 1fr',
-                  gap: '16px'
-                }}>
-                  {Object.entries(selectedNode.keyMetrics).map(([key, value]) => (
-                    <div key={key} style={{
-                      padding: '16px',
-                      background: 'linear-gradient(135deg, #f8fafc, #f1f5f9)',
-                      borderRadius: '12px',
-                      border: '1px solid #e2e8f0',
-                      transition: 'all 0.2s ease'
-                    }}>
-                      <div style={{
-                        fontSize: '11px',
-                        color: '#64748b',
-                        fontWeight: '600',
-                        textTransform: 'uppercase',
-                        letterSpacing: '0.1em',
-                        marginBottom: '6px',
-                        fontFamily: '"Inter", sans-serif'
-                      }}>
-                        {key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}
-                      </div>
-                      <div style={{
-                        fontSize: '16px',
-                        fontWeight: '700',
-                        color: '#0f172a',
-                        fontFamily: '"Inter", sans-serif'
-                      }}>
-                        {value}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-            
-            <div>
-              <h4 style={{
-                margin: '0 0 12px 0',
-                fontSize: '16px',
-                fontWeight: '700',
-                color: '#0f172a',
-                fontFamily: '"Inter", sans-serif',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px'
-              }}>
-                <span style={{ fontSize: '16px' }}>🔗</span>
-                Integration Status
-              </h4>
-              <div style={{
-                padding: '16px 20px',
-                borderRadius: '12px',
-                fontSize: '14px',
-                fontWeight: '600',
-                background: selectedNode.notConnected 
-                  ? 'linear-gradient(135deg, #fef2f2, #fee2e2)' 
-                  : 'linear-gradient(135deg, #f0fdf4, #dcfce7)',
-                color: selectedNode.notConnected ? '#b91c1c' : '#166534',
-                border: `2px solid ${selectedNode.notConnected ? '#fecaca' : '#bbf7d0'}`,
-                display: 'flex',
-                alignItems: 'center',
-                gap: '12px',
-                fontFamily: '"Inter", sans-serif'
-              }}>
-                <span style={{ fontSize: '18px' }}>
-                  {selectedNode.notConnected ? '🔴' : '🟢'}
-                </span>
-                <span>
-                  {selectedNode.notConnected 
-                    ? 'Disconnected from neural mesh' 
-                    : 'Connected to CalcGuard neural hub'
-                  }
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
