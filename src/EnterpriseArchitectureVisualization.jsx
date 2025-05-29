@@ -597,8 +597,11 @@ function EnterpriseArchitectureVisualization() {
             position: 'relative'
           }}>
             
-                            </marker>
-
+            <svg
+              width="900"
+              height="750"
+              style={{ width: '100%', height: '700px', display: 'block' }}
+            >
               <defs>
                 <marker id="arrowhead" markerWidth="10" markerHeight="8" 
                         refX="9" refY="4" orient="auto">
