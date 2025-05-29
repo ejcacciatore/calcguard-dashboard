@@ -668,140 +668,143 @@ function EnterpriseArchitectureVisualization() {
               </div>
             </div>
 
-            {/* Zoom Controls */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <button
-                onClick={handleZoomOut}
-                style={{
-                  padding: '8px 12px',
-                  background: 'rgba(255,255,255,0.1)',
-                  color: 'white',
-                  border: '1px solid rgba(255,255,255,0.2)',
-                  borderRadius: '8px',
-                  fontSize: '14px',
-                  fontWeight: '600',
-                  cursor: 'pointer',
-                  transition: 'all 0.2s ease'
-                }}
-              >
-                🔍−
-              </button>
-              <span style={{ 
-                fontSize: '14px', 
-                fontWeight: '600', 
-                minWidth: '60px', 
-                textAlign: 'center' 
-              }}>
-                {Math.round(zoomLevel * 100)}%
-              </span>
-              <button
-                onClick={handleZoomIn}
-                style={{
-                  padding: '8px 12px',
-                  background: 'rgba(255,255,255,0.1)',
-                  color: 'white',
-                  border: '1px solid rgba(255,255,255,0.2)',
-                  borderRadius: '8px',
-                  fontSize: '14px',
-                  fontWeight: '600',
-                  cursor: 'pointer',
-                  transition: 'all 0.2s ease'
-                }}
-              >
-                🔍+
-              </button>
-              <button
-                onClick={handleResetZoom}
-                style={{
-                  padding: '8px 12px',
-                  background: 'rgba(255,255,255,0.1)',
-                  color: 'white',
-                  border: '1px solid rgba(255,255,255,0.2)',
-                  borderRadius: '8px',
-                  fontSize: '12px',
-                  fontWeight: '600',
-                  cursor: 'pointer',
-                  transition: 'all 0.2s ease'
-                }}
-              >
-                Reset
-              </button>
-              <button
-                onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
-                style={{
-                  padding: '8px 12px',
-                  background: 'rgba(255,255,255,0.1)',
-                  color: 'white',
-                  border: '1px solid rgba(255,255,255,0.2)',
-                  borderRadius: '8px',
-                  fontSize: '12px',
-                  fontWeight: '600',
-                  cursor: 'pointer',
-                  transition: 'all 0.2s ease'
-                }}
-              >
-                {sidebarCollapsed ? '◀ Show' : 'Hide ▶'}
-              </button>
-            </div>
-          </div>
-          
-          {/* Interactive Controls */}
-          <div style={{ display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap', marginTop: '16px' }}>
-            <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-              {[
-                { key: 'all', label: 'Complete Architecture', color: '#ffffff', icon: '◉' },
-                { key: 'execution', label: 'Execution Flows', color: '#ef4444', icon: '→' },
-                { key: 'data', label: 'Data Visibility', color: '#22c55e', icon: '◈' },
-                { key: 'neural', label: 'Neural Network', color: '#94a3b8', icon: '◊' }
-              ].map(({ key, label, color, icon }) => (
-                <button
-                  key={key}
-                  onClick={() => setActiveFlowType(key)}
-                  style={{
-                    padding: '8px 14px',
-                    backgroundColor: activeFlowType === key ? color : 'rgba(255,255,255,0.1)',
-                    color: activeFlowType === key ? '#0f172a' : 'white',
-                    border: `2px solid ${activeFlowType === key ? color : 'rgba(255,255,255,0.2)'}`,
-                    borderRadius: '10px',
-                    fontSize: '12px',
-                    fontWeight: '600',
-                    cursor: 'pointer',
-                    transition: 'all 0.3s ease',
-                    backdropFilter: 'blur(10px)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '6px',
-                    boxShadow: activeFlowType === key ? `0 4px 16px ${color}40` : 'none'
-                  }}
-                >
-                  <span>{icon}</span>
-                  {label}
-                </button>
-              ))}
-            </div>
-            
-            <button
-              onClick={() => setShowDetails(!showDetails)}
-              style={{
-                padding: '8px 14px',
-                backgroundColor: showDetails ? '#ffffff' : 'rgba(255,255,255,0.1)',
-                color: showDetails ? '#0f172a' : 'white',
-                border: '2px solid rgba(255,255,255,0.2)',
-                borderRadius: '10px',
-                fontSize: '12px',
-                fontWeight: '600',
-                cursor: 'pointer',
-                transition: 'all 0.3s ease',
-                backdropFilter: 'blur(10px)',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '6px'
-              }}
-            >
-              <span>{showDetails ? '◉' : '○'}</span>
-              {showDetails ? 'Hide Details' : 'Show Details'}
-            </button>
-          </div>
+{/* Controls Wrapper */}
+<div>
+  {/* Zoom Controls */}
+  <div className="zoom-controls">
+    <button
+      onClick={handleZoomOut}
+      style={{
+        padding: '8px 12px',
+        background: 'rgba(255,255,255,0.1)',
+        color: 'white',
+        border: '1px solid rgba(255,255,255,0.2)',
+        borderRadius: '8px',
+        fontSize: '14px',
+        fontWeight: '600',
+        cursor: 'pointer',
+        transition: 'all 0.2s ease'
+      }}
+    >
+      🔍−
+    </button>
+    <span style={{ 
+      fontSize: '14px', 
+      fontWeight: '600', 
+      minWidth: '60px', 
+      textAlign: 'center',
+      color: 'white'
+    }}>
+      {Math.round(zoomLevel * 100)}%
+    </span>
+    <button
+      onClick={handleZoomIn}
+      style={{
+        padding: '8px 12px',
+        background: 'rgba(255,255,255,0.1)',
+        color: 'white',
+        border: '1px solid rgba(255,255,255,0.2)',
+        borderRadius: '8px',
+        fontSize: '14px',
+        fontWeight: '600',
+        cursor: 'pointer',
+        transition: 'all 0.2s ease'
+      }}
+    >
+      🔍+
+    </button>
+    <button
+      onClick={handleResetZoom}
+      style={{
+        padding: '8px 12px',
+        background: 'rgba(255,255,255,0.1)',
+        color: 'white',
+        border: '1px solid rgba(255,255,255,0.2)',
+        borderRadius: '8px',
+        fontSize: '12px',
+        fontWeight: '600',
+        cursor: 'pointer',
+        transition: 'all 0.2s ease'
+      }}
+    >
+      Reset
+    </button>
+    <button
+      onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
+      style={{
+        padding: '8px 12px',
+        background: 'rgba(255,255,255,0.1)',
+        color: 'white',
+        border: '1px solid rgba(255,255,255,0.2)',
+        borderRadius: '8px',
+        fontSize: '12px',
+        fontWeight: '600',
+        cursor: 'pointer',
+        transition: 'all 0.2s ease'
+      }}
+    >
+      {sidebarCollapsed ? '◀ Show' : 'Hide ▶'}
+    </button>
+  </div>
+
+  {/* Interactive Controls */}
+  <div style={{ display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap', marginTop: '16px' }}>
+    <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+      {[
+        { key: 'all', label: 'Complete Architecture', color: '#ffffff', icon: '◉' },
+        { key: 'execution', label: 'Execution Flows', color: '#ef4444', icon: '→' },
+        { key: 'data', label: 'Data Visibility', color: '#22c55e', icon: '◈' },
+        { key: 'neural', label: 'Neural Network', color: '#94a3b8', icon: '◊' }
+      ].map(({ key, label, color, icon }) => (
+        <button
+          key={key}
+          onClick={() => setActiveFlowType(key)}
+          style={{
+            padding: '8px 14px',
+            backgroundColor: activeFlowType === key ? color : 'rgba(255,255,255,0.1)',
+            color: activeFlowType === key ? '#0f172a' : 'white',
+            border: `2px solid ${activeFlowType === key ? color : 'rgba(255,255,255,0.2)'}`,
+            borderRadius: '10px',
+            fontSize: '12px',
+            fontWeight: '600',
+            cursor: 'pointer',
+            transition: 'all 0.3s ease',
+            backdropFilter: 'blur(10px)',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '6px',
+            boxShadow: activeFlowType === key ? `0 4px 16px ${color}40` : 'none'
+          }}
+        >
+          <span>{icon}</span>
+          {label}
+        </button>
+      ))}
+    </div>
+    
+    <button
+      onClick={() => setShowDetails(!showDetails)}
+      style={{
+        padding: '8px 14px',
+        backgroundColor: showDetails ? '#ffffff' : 'rgba(255,255,255,0.1)',
+        color: showDetails ? '#0f172a' : 'white',
+        border: '2px solid rgba(255,255,255,0.2)',
+        borderRadius: '10px',
+        fontSize: '12px',
+        fontWeight: '600',
+        cursor: 'pointer',
+        transition: 'all 0.3s ease',
+        backdropFilter: 'blur(10px)',
+        display: 'flex',
+        alignItems: 'center',
+        gap: '6px'
+      }}
+    >
+      <span>{showDetails ? '◉' : '○'}</span>
+      {showDetails ? 'Hide Details' : 'Show Details'}
+    </button>
+  </div>
+</div>
         </div>
       </div>
 
