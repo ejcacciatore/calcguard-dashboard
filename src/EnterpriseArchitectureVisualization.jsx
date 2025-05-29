@@ -5,29 +5,69 @@ function EnterpriseArchitectureVisualization() {
   const [hoveredNode, setHoveredNode] = useState(null);
   const [activeFlowType, setActiveFlowType] = useState('all');
   const [showDetails, setShowDetails] = useState(false);
-  const [viewportSize, setViewportSize] = useState({ width: 1200, height: 800 });
-
+  const [viewportSize, setViewportSize] = useState({ width: 1600, height: 1000 });
+  const [zoomLevel, setZoomLevel] = useState(1);
+  const [panOffset, setPanOffset] = useState({ x: 0, y: 0 });
+  const [isPanning, setIsPanning] = useState(false);
+  const [panStart, setPanStart] = useState({ x: 0, y: 0 });
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  // Make CalcGuard Neural Mesh label bigger and bolder, and pulse ring larger
   // Handle viewport resize
   useEffect(() => {
     const handleResize = () => {
       setViewportSize({
-        width: Math.max(1000, window.innerWidth - 100),
-        height: Math.max(600, window.innerHeight - 400)
+        width: Math.max(1400, window.innerWidth - (sidebarCollapsed ? 100 : 600)),
+        height: Math.max(800, window.innerHeight - 200)
       });
     };
 
     handleResize();
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
-  }, []);
+  }, [sidebarCollapsed]);
 
-  // Scale coordinates based on viewport
-  const scaleX = (x) => (x / 800) * Math.min(viewportSize.width - 200, 1000);
-  const scaleY = (y) => (y / 700) * Math.min(viewportSize.height - 100, 600);
+  // Scale coordinates based on viewport - increased base scale for larger layout
+  const scaleX = (x) => (x / 700) * Math.min(viewportSize.width - 100, 1400);
+  const scaleY = (y) => (y / 600) * Math.min(viewportSize.height - 100, 900);
+
+  // Zoom functions
+  const handleZoomIn = () => {
+    setZoomLevel(prev => Math.min(prev + 0.25, 3));
+  };
+
+  const handleZoomOut = () => {
+    setZoomLevel(prev => Math.max(prev - 0.25, 0.5));
+  };
+
+  const handleResetZoom = () => {
+    setZoomLevel(1);
+    setPanOffset({ x: 0, y: 0 });
+  };
+
+  // Pan functionality
+  const handleMouseDown = (e) => {
+    if (e.button === 0) { // Left click only
+      setIsPanning(true);
+      setPanStart({ x: e.clientX - panOffset.x, y: e.clientY - panOffset.y });
+    }
+  };
+
+  const handleMouseMove = (e) => {
+    if (isPanning) {
+      setPanOffset({
+        x: e.clientX - panStart.x,
+        y: e.clientY - panStart.y
+      });
+    }
+  };
+
+  const handleMouseUp = () => {
+    setIsPanning(false);
+  };
 
   // Professional fintech icon components
   const renderIcon = (entity, isHovered, isSelected) => {
-    const iconSize = isHovered || isSelected ? 20 : 16;
+    const iconSize = isHovered || isSelected ? 24 : 20;
     const iconColor = '#ffffff';
     
     // Icon definitions based on entity type/category
@@ -37,11 +77,11 @@ function EnterpriseArchitectureVisualization() {
           return (
             <g>
               {/* Portfolio/Asset Management Icon */}
-              <rect x="-8" y="-6" width="16" height="12" rx="2" fill={iconColor} opacity="0.9"/>
-              <rect x="-6" y="-4" width="3" height="8" rx="1" fill={entity.color} opacity="0.3"/>
-              <rect x="-1" y="-2" width="3" height="6" rx="1" fill={entity.color} opacity="0.5"/>
-              <rect x="4" y="-3" width="3" height="7" rx="1" fill={entity.color} opacity="0.7"/>
-              <circle cx="0" cy="8" r="1.5" fill={iconColor} opacity="0.8"/>
+              <rect x="-10" y="-8" width="20" height="16" rx="3" fill={iconColor} opacity="0.9"/>
+              <rect x="-8" y="-6" width="4" height="12" rx="1" fill={entity.color} opacity="0.3"/>
+              <rect x="-2" y="-4" width="4" height="10" rx="1" fill={entity.color} opacity="0.5"/>
+              <rect x="4" y="-5" width="4" height="11" rx="1" fill={entity.color} opacity="0.7"/>
+              <circle cx="0" cy="10" r="2" fill={iconColor} opacity="0.8"/>
             </g>
           );
         
@@ -50,11 +90,11 @@ function EnterpriseArchitectureVisualization() {
           return (
             <g>
               {/* Order Management System Icon */}
-              <rect x="-9" y="-7" width="18" height="14" rx="3" fill={iconColor} opacity="0.9"/>
-              <rect x="-7" y="-5" width="14" height="2" rx="1" fill={entity.color} opacity="0.6"/>
-              <rect x="-7" y="-1" width="10" height="2" rx="1" fill={entity.color} opacity="0.4"/>
-              <rect x="-7" y="3" width="12" height="2" rx="1" fill={entity.color} opacity="0.5"/>
-              <circle cx="6" cy="4" r="2" fill={entity.color} opacity="0.7"/>
+              <rect x="-12" y="-9" width="24" height="18" rx="4" fill={iconColor} opacity="0.9"/>
+              <rect x="-10" y="-7" width="20" height="3" rx="1" fill={entity.color} opacity="0.6"/>
+              <rect x="-10" y="-2" width="14" height="3" rx="1" fill={entity.color} opacity="0.4"/>
+              <rect x="-10" y="3" width="16" height="3" rx="1" fill={entity.color} opacity="0.5"/>
+              <circle cx="8" cy="5" r="3" fill={entity.color} opacity="0.7"/>
             </g>
           );
         
@@ -64,11 +104,11 @@ function EnterpriseArchitectureVisualization() {
           return (
             <g>
               {/* Execution/Technology Icon */}
-              <polygon points="-8,-6 8,-6 10,-3 10,3 8,6 -8,6 -10,3 -10,-3" fill={iconColor} opacity="0.9"/>
-              <rect x="-6" y="-4" width="12" height="8" rx="2" fill={entity.color} opacity="0.1"/>
-              <circle cx="-3" cy="-1" r="2" fill={entity.color} opacity="0.6"/>
-              <circle cx="3" cy="-1" r="2" fill={entity.color} opacity="0.6"/>
-              <rect x="-1" y="2" width="2" height="3" rx="1" fill={entity.color} opacity="0.8"/>
+              <polygon points="-10,-8 10,-8 12,-4 12,4 10,8 -10,8 -12,4 -12,-4" fill={iconColor} opacity="0.9"/>
+              <rect x="-8" y="-6" width="16" height="12" rx="3" fill={entity.color} opacity="0.1"/>
+              <circle cx="-4" cy="-2" r="3" fill={entity.color} opacity="0.6"/>
+              <circle cx="4" cy="-2" r="3" fill={entity.color} opacity="0.6"/>
+              <rect x="-2" y="3" width="4" height="4" rx="2" fill={entity.color} opacity="0.8"/>
             </g>
           );
         
@@ -78,10 +118,10 @@ function EnterpriseArchitectureVisualization() {
           return (
             <g>
               {/* Broker/Trading Icon */}
-              <circle cx="0" cy="0" r="9" fill={iconColor} opacity="0.9"/>
-              <path d="M-6,-3 L-2,-3 L0,-6 L2,-3 L6,-3 L6,0 L2,0 L0,3 L-2,0 L-6,0 Z" fill={entity.color} opacity="0.7"/>
-              <circle cx="0" cy="0" r="2" fill={entity.color} opacity="0.9"/>
-              <circle cx="0" cy="6" r="1" fill={iconColor} opacity="0.8"/>
+              <circle cx="0" cy="0" r="12" fill={iconColor} opacity="0.9"/>
+              <path d="M-8,-4 L-3,-4 L0,-8 L3,-4 L8,-4 L8,0 L3,0 L0,4 L-3,0 L-8,0 Z" fill={entity.color} opacity="0.7"/>
+              <circle cx="0" cy="0" r="3" fill={entity.color} opacity="0.9"/>
+              <circle cx="0" cy="8" r="1.5" fill={iconColor} opacity="0.8"/>
             </g>
           );
         
@@ -89,34 +129,34 @@ function EnterpriseArchitectureVisualization() {
           return (
             <g>
               {/* Venues/Exchange Icon */}
-              <rect x="-8" y="-8" width="16" height="16" rx="4" fill={iconColor} opacity="0.9"/>
-              <rect x="-6" y="-6" width="12" height="12" rx="2" fill={entity.color} opacity="0.1"/>
-              <circle cx="-3" cy="-3" r="1.5" fill={entity.color} opacity="0.7"/>
-              <circle cx="3" cy="-3" r="1.5" fill={entity.color} opacity="0.7"/>
-              <circle cx="-3" cy="3" r="1.5" fill={entity.color} opacity="0.7"/>
-              <circle cx="3" cy="3" r="1.5" fill={entity.color} opacity="0.7"/>
-              <rect x="-1" y="-1" width="2" height="2" rx="1" fill={entity.color} opacity="0.9"/>
+              <rect x="-10" y="-10" width="20" height="20" rx="5" fill={iconColor} opacity="0.9"/>
+              <rect x="-8" y="-8" width="16" height="16" rx="3" fill={entity.color} opacity="0.1"/>
+              <circle cx="-4" cy="-4" r="2" fill={entity.color} opacity="0.7"/>
+              <circle cx="4" cy="-4" r="2" fill={entity.color} opacity="0.7"/>
+              <circle cx="-4" cy="4" r="2" fill={entity.color} opacity="0.7"/>
+              <circle cx="4" cy="4" r="2" fill={entity.color} opacity="0.7"/>
+              <rect x="-2" y="-2" width="4" height="4" rx="2" fill={entity.color} opacity="0.9"/>
             </g>
           );
         
         default:
           return (
             <g>
-              <circle cx="0" cy="0" r="8" fill={iconColor} opacity="0.9"/>
-              <circle cx="0" cy="0" r="5" fill={entity.color} opacity="0.6"/>
+              <circle cx="0" cy="0" r="10" fill={iconColor} opacity="0.9"/>
+              <circle cx="0" cy="0" r="6" fill={entity.color} opacity="0.6"/>
             </g>
           );
       }
     };
 
     return (
-      <g transform={`scale(${iconSize/16})`}>
+      <g transform={`scale(${iconSize/20})`}>
         {getIconPath(entity.category, entity.type)}
       </g>
     );
   };
 
-  // Professional entity definitions with enhanced metadata
+  // Professional entity definitions with enhanced metadata - increased spacing
   const entities = {
     assetManagers: [
       {
@@ -129,8 +169,8 @@ function EnterpriseArchitectureVisualization() {
         type: 'Institutional Asset Manager',
         layer: 1,
         color: '#0f172a',
-        x: 100,
-        y: 80,
+        x: 120,
+        y: 100,
         connections: ['ssga-oms'],
         description: 'Global institutional asset manager with proprietary technology stack and comprehensive investment solutions.',
         keyMetrics: { aum: '$4.1T', clients: '1,200+', strategies: '300+' }
@@ -145,8 +185,8 @@ function EnterpriseArchitectureVisualization() {
         type: 'Municipal Pension Fund',
         layer: 1,
         color: '#b91c1c',
-        x: 350,
-        y: 80,
+        x: 400,
+        y: 100,
         connections: ['northern-trust'],
         description: 'Large municipal retirement system serving Illinois public employees with diversified investment mandate.',
         keyMetrics: { aum: '$65B', members: '180K', plans: '650+' }
@@ -161,8 +201,8 @@ function EnterpriseArchitectureVisualization() {
         type: 'Value Investment Manager',
         layer: 1,
         color: '#059669',
-        x: 600,
-        y: 80,
+        x: 680,
+        y: 100,
         connections: ['charles-river'],
         description: 'Specialized value investment manager serving as subadvisor with disciplined investment approach.',
         keyMetrics: { aum: '$8.2B', experience: '45+ years', focus: 'Value Equity' }
@@ -179,8 +219,8 @@ function EnterpriseArchitectureVisualization() {
         type: 'Internal OMS Platform',
         layer: 2,
         color: '#dc2626',
-        x: 100,
-        y: 200,
+        x: 120,
+        y: 250,
         connections: ['newport-ssga'],
         notConnected: true,
         description: 'Proprietary order management system with integrated portfolio management and risk controls.',
@@ -195,8 +235,8 @@ function EnterpriseArchitectureVisualization() {
         type: 'Investment Management Platform',
         layer: 2,
         color: '#7c3aed',
-        x: 600,
-        y: 200,
+        x: 680,
+        y: 250,
         connections: ['castle-oak', 'goldman', 'instinet'],
         description: 'Leading investment management technology platform with comprehensive order and portfolio management.',
         keyMetrics: { firms: '500+', aum: '$45T+', coverage: 'Global' }
@@ -210,8 +250,8 @@ function EnterpriseArchitectureVisualization() {
         type: 'Technology Services Provider',
         layer: 2,
         color: '#0891b2',
-        x: 350,
-        y: 200,
+        x: 400,
+        y: 250,
         connections: ['flextrade'],
         description: 'Comprehensive investment technology and outsourced trading services for institutional clients.',
         keyMetrics: { custody: '$13.4T', clients: '20K+', countries: '100+' }
@@ -228,8 +268,8 @@ function EnterpriseArchitectureVisualization() {
         type: 'Algorithmic Execution Platform',
         layer: 3,
         color: '#1e40af',
-        x: 100,
-        y: 320,
+        x: 120,
+        y: 400,
         connections: ['fidelity-sb', 'instinet'],
         description: 'Sophisticated execution management with custom algorithm wheels: POV, Lit Storm, Auto Route, Waterfall.',
         keyMetrics: { algorithms: '50+', venues: '200+', latency: '<1ms' }
@@ -243,8 +283,8 @@ function EnterpriseArchitectureVisualization() {
         type: 'Cross-Asset Execution Platform',
         layer: 3,
         color: '#ea580c',
-        x: 350,
-        y: 320,
+        x: 400,
+        y: 400,
         connections: ['loop', 'goldman'],
         description: 'Multi-asset execution management system supporting equities, fixed income, FX, and derivatives.',
         keyMetrics: { assets: 'Multi-Asset', coverage: 'Global', clients: '500+' }
@@ -258,8 +298,8 @@ function EnterpriseArchitectureVisualization() {
         type: 'Specialized Execution Platform',
         layer: 3,
         color: '#be185d',
-        x: 220,
-        y: 420,
+        x: 260,
+        y: 520,
         connections: ['goldman'],
         description: 'Loop Capital configured Newport EMS instance for specialized execution strategies.',
         keyMetrics: { focus: 'Specialized', routing: 'Smart', integration: 'Seamless' }
@@ -276,8 +316,8 @@ function EnterpriseArchitectureVisualization() {
         type: 'Execution Technology Stack',
         layer: 3.5,
         color: '#7c3aed',
-        x: 100,
-        y: 420,
+        x: 120,
+        y: 520,
         connections: ['fsb-venues'],
         description: 'Advanced execution technology with SDP, Private Rooms, POV algorithms, and customizable dark/lit routing.',
         keyMetrics: { algorithms: 'Custom', rooms: 'Private', routing: 'Intelligent' }
@@ -291,8 +331,8 @@ function EnterpriseArchitectureVisualization() {
         type: 'Machine Learning Platform',
         layer: 3.5,
         color: '#1e40af',
-        x: 600,
-        y: 420,
+        x: 680,
+        y: 520,
         connections: ['castle-oak'],
         description: 'AI-powered execution algorithms and trading intelligence platform with machine learning optimization.',
         keyMetrics: { ai: 'Advanced ML', optimization: 'Real-time', performance: 'Superior' }
@@ -309,8 +349,8 @@ function EnterpriseArchitectureVisualization() {
         type: 'Institutional Broker Dealer',
         layer: 4,
         color: '#be185d',
-        x: 150,
-        y: 520,
+        x: 180,
+        y: 650,
         connections: ['newport-loop'],
         description: 'Specialized institutional broker dealer focusing on diverse investment strategies and client solutions.',
         keyMetrics: { focus: 'Institutional', specialty: 'Diverse Strategies', scale: 'Mid-Size' }
@@ -324,8 +364,8 @@ function EnterpriseArchitectureVisualization() {
         type: 'Global Investment Bank',
         layer: 4,
         color: '#1f2937',
-        x: 300,
-        y: 520,
+        x: 350,
+        y: 650,
         connections: ['goldman-venues'],
         description: 'Premier global investment bank providing comprehensive execution, prime brokerage, and capital markets services.',
         keyMetrics: { revenue: '$47B+', global: '40+ countries', services: 'Full Service' }
@@ -339,8 +379,8 @@ function EnterpriseArchitectureVisualization() {
         type: 'Technology-Driven Broker',
         layer: 4,
         color: '#dc2626',
-        x: 600,
-        y: 520,
+        x: 680,
+        y: 650,
         connections: ['castle-venues'],
         description: 'Technology-focused broker dealer with proprietary Pragma-powered execution algorithms and specialized routing.',
         keyMetrics: { technology: 'Proprietary', focus: 'Execution', innovation: 'AI-Driven' }
@@ -354,8 +394,8 @@ function EnterpriseArchitectureVisualization() {
         type: 'Electronic Trading Specialist',
         layer: 4,
         color: '#475569',
-        x: 450,
-        y: 520,
+        x: 520,
+        y: 650,
         connections: ['instinet-venues'],
         description: 'Leading electronic trading specialist providing agency execution services and market structure innovation.',
         keyMetrics: { model: 'Agency', innovation: 'Electronic', focus: 'Institutional' }
@@ -372,8 +412,8 @@ function EnterpriseArchitectureVisualization() {
         type: 'ATS | Exchanges | SDP | Private Rooms',
         layer: 5,
         color: '#7c3aed',
-        x: 100,
-        y: 620,
+        x: 120,
+        y: 780,
         description: 'Comprehensive venue access including alternative trading systems, exchanges, and private execution rooms.'
       },
       {
@@ -385,8 +425,8 @@ function EnterpriseArchitectureVisualization() {
         type: 'Global Venues | Dark Pools | Exchanges',
         layer: 5,
         color: '#1f2937',
-        x: 300,
-        y: 620,
+        x: 350,
+        y: 780,
         description: 'Extensive global venue network including proprietary dark pools and comprehensive exchange connectivity.'
       },
       {
@@ -398,8 +438,8 @@ function EnterpriseArchitectureVisualization() {
         type: 'Crossing Networks | Dark Pools | ECNs',
         layer: 5,
         color: '#475569',
-        x: 450,
-        y: 620,
+        x: 520,
+        y: 780,
         description: 'Specialized electronic venues including crossing networks, dark pools, and electronic communication networks.'
       },
       {
@@ -411,8 +451,8 @@ function EnterpriseArchitectureVisualization() {
         type: 'Smart Routing | Alternative Venues',
         layer: 5,
         color: '#dc2626',
-        x: 600,
-        y: 620,
+        x: 680,
+        y: 780,
         description: 'Specialized execution venues with intelligent routing and access to alternative liquidity sources.'
       }
     ]
@@ -422,8 +462,8 @@ function EnterpriseArchitectureVisualization() {
     id: 'calcguard',
     name: 'CalcGuard',
     fullName: 'CalcGuard Neural Data Mesh Platform',
-    x: 350,
-    y: 350,
+    x: 400,
+    y: 450,
     color: '#0f172a',
     size: 50,
     description: 'Enterprise-grade distributed data mesh providing real-time transaction lifecycle visibility and neural pathway intelligence across the complete trading ecosystem.'
@@ -538,9 +578,9 @@ function EnterpriseArchitectureVisualization() {
           {isHighlighted && (
             <text
               x={(scaleX(fromEntity.x) + scaleX(toEntity.x)) / 2}
-              y={(scaleY(fromEntity.y) + scaleY(toEntity.y)) / 2 - 8}
+              y={(scaleY(fromEntity.y) + scaleY(toEntity.y)) / 2 - 10}
               textAnchor="middle"
-              fontSize="12"
+              fontSize="14"
               fontWeight="700"
               fill={style.color}
               style={{ pointerEvents: 'none' }}
@@ -560,86 +600,153 @@ function EnterpriseArchitectureVisualization() {
       fontFamily: '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
       padding: '0',
       width: '100%',
-      overflow: 'auto'
+      overflow: 'hidden'
     }}>
       {/* Executive Header */}
       <div style={{
         background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%)',
         color: 'white',
-        padding: '30px 20px',
+        padding: '20px 30px',
         boxShadow: '0 20px 60px rgba(0,0,0,0.15)',
         width: '100%',
         boxSizing: 'border-box',
         borderBottom: '1px solid rgba(255,255,255,0.1)'
       }}>
-        <div style={{ maxWidth: '1400px', margin: '0 auto', width: '100%' }}>
-          <div style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>
-            {/* Professional Logo */}
-            <div style={{
-              width: '48px',
-              height: '48px',
-              background: 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
-              borderRadius: '12px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              marginRight: '16px',
-              boxShadow: '0 8px 32px rgba(59,130,246,0.3)'
-            }}>
+        <div style={{ maxWidth: '1600px', margin: '0 auto', width: '100%' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              {/* Professional Logo */}
               <div style={{
-                width: '24px',
-                height: '24px',
-                background: 'white',
-                borderRadius: '6px',
+                width: '40px',
+                height: '40px',
+                background: 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
+                borderRadius: '10px',
                 display: 'flex',
                 alignItems: 'center',
-                justifyContent: 'center'
+                justifyContent: 'center',
+                marginRight: '12px',
+                boxShadow: '0 8px 32px rgba(59,130,246,0.3)'
               }}>
                 <div style={{
-                  width: '12px',
-                  height: '12px',
-                  background: 'linear-gradient(45deg, #3b82f6, #1d4ed8)',
-                  borderRadius: '2px'
-                }}></div>
+                  width: '20px',
+                  height: '20px',
+                  background: 'white',
+                  borderRadius: '4px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}>
+                  <div style={{
+                    width: '10px',
+                    height: '10px',
+                    background: 'linear-gradient(45deg, #3b82f6, #1d4ed8)',
+                    borderRadius: '2px'
+                  }}></div>
+                </div>
+              </div>
+              <div>
+                <h1 style={{
+                  margin: '0',
+                  fontSize: '22px',
+                  fontWeight: '700',
+                  letterSpacing: '-0.02em',
+                  background: 'linear-gradient(135deg, #ffffff 0%, #e2e8f0 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent'
+                }}>
+                  CalcGuard Neural Data Mesh Architecture
+                </h1>
+                <div style={{
+                  fontSize: '12px',
+                  opacity: '0.7',
+                  fontWeight: '500',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.1em'
+                }}>
+                  Enterprise Trading Architecture
+                </div>
               </div>
             </div>
-            <div>
-              <h1 style={{
-                margin: '0',
-                fontSize: 'clamp(24px, 4vw, 32px)',
-                fontWeight: '700',
-                letterSpacing: '-0.02em',
-                background: 'linear-gradient(135deg, #ffffff 0%, #e2e8f0 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent'
+
+            {/* Zoom Controls */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <button
+                onClick={handleZoomOut}
+                style={{
+                  padding: '8px 12px',
+                  background: 'rgba(255,255,255,0.1)',
+                  color: 'white',
+                  border: '1px solid rgba(255,255,255,0.2)',
+                  borderRadius: '8px',
+                  fontSize: '14px',
+                  fontWeight: '600',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease'
+                }}
+              >
+                🔍−
+              </button>
+              <span style={{ 
+                fontSize: '14px', 
+                fontWeight: '600', 
+                minWidth: '60px', 
+                textAlign: 'center' 
               }}>
-                CalcGuard Neural Data Mesh
-              </h1>
-              <div style={{
-                fontSize: 'clamp(12px, 2vw, 14px)',
-                opacity: '0.7',
-                fontWeight: '500',
-                textTransform: 'uppercase',
-                letterSpacing: '0.1em'
-              }}>
-                Enterprise Trading Architecture
-              </div>
+                {Math.round(zoomLevel * 100)}%
+              </span>
+              <button
+                onClick={handleZoomIn}
+                style={{
+                  padding: '8px 12px',
+                  background: 'rgba(255,255,255,0.1)',
+                  color: 'white',
+                  border: '1px solid rgba(255,255,255,0.2)',
+                  borderRadius: '8px',
+                  fontSize: '14px',
+                  fontWeight: '600',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease'
+                }}
+              >
+                🔍+
+              </button>
+              <button
+                onClick={handleResetZoom}
+                style={{
+                  padding: '8px 12px',
+                  background: 'rgba(255,255,255,0.1)',
+                  color: 'white',
+                  border: '1px solid rgba(255,255,255,0.2)',
+                  borderRadius: '8px',
+                  fontSize: '12px',
+                  fontWeight: '600',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease'
+                }}
+              >
+                Reset
+              </button>
+              <button
+                onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
+                style={{
+                  padding: '8px 12px',
+                  background: 'rgba(255,255,255,0.1)',
+                  color: 'white',
+                  border: '1px solid rgba(255,255,255,0.2)',
+                  borderRadius: '8px',
+                  fontSize: '12px',
+                  fontWeight: '600',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease'
+                }}
+              >
+                {sidebarCollapsed ? '◀ Show' : 'Hide ▶'}
+              </button>
             </div>
           </div>
           
-          <p style={{
-            margin: '0 0 24px 0',
-            fontSize: 'clamp(14px, 2.5vw, 18px)',
-            opacity: '0.9',
-            fontWeight: '400',
-            maxWidth: '800px',
-            lineHeight: '1.6'
-          }}>
-            Enterprise-grade distributed transaction intelligence platform providing comprehensive lifecycle visibility across institutional trading ecosystems
-          </p>
-          
           {/* Interactive Controls */}
-          <div style={{ display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap', marginTop: '16px' }}>
             <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
               {[
                 { key: 'all', label: 'Complete Architecture', color: '#ffffff', icon: '◉' },
@@ -651,19 +758,19 @@ function EnterpriseArchitectureVisualization() {
                   key={key}
                   onClick={() => setActiveFlowType(key)}
                   style={{
-                    padding: '10px 16px',
+                    padding: '8px 14px',
                     backgroundColor: activeFlowType === key ? color : 'rgba(255,255,255,0.1)',
                     color: activeFlowType === key ? '#0f172a' : 'white',
                     border: `2px solid ${activeFlowType === key ? color : 'rgba(255,255,255,0.2)'}`,
-                    borderRadius: '12px',
-                    fontSize: 'clamp(12px, 1.5vw, 14px)',
+                    borderRadius: '10px',
+                    fontSize: '12px',
                     fontWeight: '600',
                     cursor: 'pointer',
                     transition: 'all 0.3s ease',
                     backdropFilter: 'blur(10px)',
                     display: 'flex',
                     alignItems: 'center',
-                    gap: '8px',
+                    gap: '6px',
                     boxShadow: activeFlowType === key ? `0 4px 16px ${color}40` : 'none'
                   }}
                 >
@@ -676,19 +783,19 @@ function EnterpriseArchitectureVisualization() {
             <button
               onClick={() => setShowDetails(!showDetails)}
               style={{
-                padding: '10px 16px',
+                padding: '8px 14px',
                 backgroundColor: showDetails ? '#ffffff' : 'rgba(255,255,255,0.1)',
                 color: showDetails ? '#0f172a' : 'white',
                 border: '2px solid rgba(255,255,255,0.2)',
-                borderRadius: '12px',
-                fontSize: 'clamp(12px, 1.5vw, 14px)',
+                borderRadius: '10px',
+                fontSize: '12px',
                 fontWeight: '600',
                 cursor: 'pointer',
                 transition: 'all 0.3s ease',
                 backdropFilter: 'blur(10px)',
                 display: 'flex',
                 alignItems: 'center',
-                gap: '8px'
+                gap: '6px'
               }}
             >
               <span>{showDetails ? '◉' : '○'}</span>
@@ -700,31 +807,27 @@ function EnterpriseArchitectureVisualization() {
 
       {/* Main Visualization Area */}
       <div style={{ 
-        padding: '20px',
-        maxWidth: '1600px',
-        margin: '0 auto',
+        padding: '0',
         width: '100%',
-        boxSizing: 'border-box'
+        height: 'calc(100vh - 150px)',
+        display: 'flex',
+        overflow: 'hidden'
       }}>
-        <div style={{ 
-          display: 'grid', 
-          gridTemplateColumns: selectedNode ? '200px 1fr 300px' : '200px 1fr 280px',
-          gap: '20px', 
-          alignItems: 'flex-start',
-          minHeight: '600px'
-        }}>
-          
-          {/* Layer Navigation */}
+        
+        {/* Collapsible Sidebar */}
+        {!sidebarCollapsed && (
           <div style={{
+            width: '280px',
             background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
-            borderRadius: '20px',
-            padding: '24px',
+            borderRadius: '0 20px 20px 0',
+            padding: '20px',
             boxShadow: '0 20px 60px rgba(0,0,0,0.08)',
-            border: '1px solid rgba(226,232,240,0.8)',
-            height: 'fit-content'
+            borderRight: '1px solid rgba(226,232,240,0.8)',
+            height: '100%',
+            overflowY: 'auto'
           }}>
             <h3 style={{
-              margin: '0 0 20px 0',
+              margin: '0 0 16px 0',
               fontSize: '16px',
               fontWeight: '700',
               color: '#0f172a',
@@ -743,132 +846,150 @@ function EnterpriseArchitectureVisualization() {
               }}>
                 <div style={{ width: '8px', height: '8px', background: 'white', borderRadius: '1px' }}></div>
               </div>
-              Ecosystem Layers
+              Flow Classification
             </h3>
             
             {[
-              { name: 'Asset Management', count: 3, color: '#0f172a', icon: '📊' },
-              { name: 'Order Management', count: 3, color: '#7c3aed', icon: '⚙️' },
-              { name: 'Execution Systems', count: 4, color: '#ea580c', icon: '⚡' },
-              { name: 'Broker Network', count: 4, color: '#1f2937', icon: '🏛️' },
-              { name: 'Trading Venues', count: 4, color: '#374151', icon: '🏢' }
-            ].map((layer, index) => (
-              <div key={index} style={{
-                padding: '12px 16px',
-                borderRadius: '12px',
-                marginBottom: '8px',
-                background: `linear-gradient(135deg, ${layer.color}08, ${layer.color}05)`,
-                border: `1px solid ${layer.color}20`,
-                cursor: 'pointer',
-                transition: 'all 0.3s ease',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '12px'
+              { color: '#dc2626', label: 'Primary Execution', description: 'Core order routing and execution flows', icon: '→' },
+              { color: '#1f2937', label: 'Prime Services', description: 'Prime brokerage and institutional services', icon: '⚡' },
+              { color: '#1e40af', label: 'Technology Integration', description: 'System connectivity and data exchange', icon: '⚙️' },
+              { color: '#059669', label: 'Data Transparency', description: 'Transaction visibility and reporting', icon: '◈' },
+              { color: '#9ca3af', label: 'Neural Network', description: 'CalcGuard mesh connectivity', icon: '◊' }
+            ].map(({ color, label, description, icon }) => (
+              <div key={label} style={{
+                marginBottom: '12px',
+                padding: '12px',
+                borderRadius: '10px',
+                border: `1px solid ${color}20`,
+                background: `linear-gradient(135deg, ${color}08, ${color}05)`,
+                transition: 'all 0.2s ease'
               }}>
-                <span style={{ fontSize: '16px' }}>{layer.icon}</span>
-                <div style={{ flex: 1 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '6px' }}>
                   <div style={{
-                    fontSize: '13px',
-                    fontWeight: '600',
+                    width: '20px',
+                    height: '20px',
+                    background: `linear-gradient(135deg, ${color}, ${color}dd)`,
+                    borderRadius: '4px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: 'white',
+                    fontSize: '10px'
+                  }}>
+                    {icon}
+                  </div>
+                  <span style={{
+                    fontSize: '12px',
+                    fontWeight: '700',
                     color: '#0f172a',
-                    marginBottom: '2px'
+                    fontFamily: '"Inter", sans-serif'
                   }}>
-                    {layer.name}
-                  </div>
-                  <div style={{
-                    fontSize: '11px',
-                    color: '#64748b',
-                    fontWeight: '500'
-                  }}>
-                    {layer.count} entities
-                  </div>
+                    {label}
+                  </span>
+                </div>
+                <div style={{
+                  fontSize: '10px',
+                  color: '#64748b',
+                  lineHeight: '1.4',
+                  marginLeft: '30px',
+                  fontFamily: '"Inter", sans-serif'
+                }}>
+                  {description}
                 </div>
               </div>
             ))}
           </div>
+        )}
 
-          {/* Main Diagram */}
-          <div style={{
-            background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
-            borderRadius: '24px',
-            padding: '24px',
-            boxShadow: '0 25px 80px rgba(0,0,0,0.12)',
-            border: '1px solid rgba(226,232,240,0.8)',
-            position: 'relative',
-            overflow: 'hidden'
-          }}>
-            <svg
-              width={viewportSize.width - 540}
-              height={viewportSize.height}
-              style={{ width: '100%', height: '100%', display: 'block' }}
-              viewBox={`0 0 ${viewportSize.width - 540} ${viewportSize.height}`}
-            >
-              <defs>
-                <marker id="arrowhead" markerWidth="10" markerHeight="8" 
-                        refX="9" refY="4" orient="auto">
-                  <polygon points="0 0, 10 4, 0 8" fill="#64748b" />
-                </marker>
-                
-                <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-                  <feGaussianBlur stdDeviation="6" result="coloredBlur"/>
-                  <feMerge> 
-                    <feMergeNode in="coloredBlur"/>
-                    <feMergeNode in="SourceGraphic"/>
-                  </feMerge>
-                </filter>
+        {/* Main Diagram - Much Larger */}
+        <div style={{
+          flex: 1,
+          background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
+          borderRadius: sidebarCollapsed ? '20px' : '0 0 0 20px',
+          margin: '20px',
+          marginLeft: sidebarCollapsed ? '20px' : '0',
+          boxShadow: '0 25px 80px rgba(0,0,0,0.12)',
+          border: '1px solid rgba(226,232,240,0.8)',
+          position: 'relative',
+          overflow: 'hidden',
+          cursor: isPanning ? 'grabbing' : 'grab'
+        }}>
+          <svg
+            width="100%"
+            height="100%"
+            style={{ width: '100%', height: '100%', display: 'block' }}
+            onMouseDown={handleMouseDown}
+            onMouseMove={handleMouseMove}
+            onMouseUp={handleMouseUp}
+            onMouseLeave={handleMouseUp}
+          >
+            <defs>
+              <marker id="arrowhead" markerWidth="12" markerHeight="10" 
+                      refX="11" refY="5" orient="auto">
+                <polygon points="0 0, 12 5, 0 10" fill="#64748b" />
+              </marker>
+              
+              <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur stdDeviation="8" result="coloredBlur"/>
+                <feMerge> 
+                  <feMergeNode in="coloredBlur"/>
+                  <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+              </filter>
 
-                <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
-                  <feDropShadow dx="0" dy="4" stdDeviation="8" floodColor="#0f172a" floodOpacity="0.1"/>
-                </filter>
+              <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+                <feDropShadow dx="0" dy="6" stdDeviation="12" floodColor="#0f172a" floodOpacity="0.15"/>
+              </filter>
 
-                <radialGradient id="meshGradient" cx="50%" cy="50%" r="60%">
-                  <stop offset="0%" style={{stopColor: '#0f172a', stopOpacity: 1}} />
-                  <stop offset="50%" style={{stopColor: '#1e293b', stopOpacity: 0.9}} />
-                  <stop offset="100%" style={{stopColor: '#334155', stopOpacity: 0.7}} />
-                </radialGradient>
+              <radialGradient id="meshGradient" cx="50%" cy="50%" r="60%">
+                <stop offset="0%" style={{stopColor: '#0f172a', stopOpacity: 1}} />
+                <stop offset="50%" style={{stopColor: '#1e293b', stopOpacity: 0.9}} />
+                <stop offset="100%" style={{stopColor: '#334155', stopOpacity: 0.7}} />
+              </radialGradient>
 
-                <linearGradient id="entityGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" style={{stopColor: '#ffffff', stopOpacity: 1}} />
-                  <stop offset="100%" style={{stopColor: '#f1f5f9', stopOpacity: 1}} />
-                </linearGradient>
-              </defs>
+              <linearGradient id="entityGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style={{stopColor: '#ffffff', stopOpacity: 1}} />
+                <stop offset="100%" style={{stopColor: '#f1f5f9', stopOpacity: 1}} />
+              </linearGradient>
+            </defs>
 
+            <g transform={`translate(${panOffset.x}, ${panOffset.y}) scale(${zoomLevel})`}>
               {/* Render flows */}
               {renderFlows()}
 
-              {/* CalcGuard Neural Hub */}
+              {/* CalcGuard Neural Hub - Larger */}
               <g transform={`translate(${scaleX(calcguardNode.x)},${scaleY(calcguardNode.y)})`}>
                 {/* Outer pulse ring */}
                 <circle
-                  r="70"
+                  r="90"
                   fill="none"
                   stroke="#0f172a"
-                  strokeWidth="2"
+                  strokeWidth="3"
                   strokeOpacity="0.15"
-                  strokeDasharray="16,8"
+                  strokeDasharray="20,10"
                 >
-                  <animate attributeName="r" values="65;80;65" dur="8s" repeatCount="indefinite" />
-                  <animate attributeName="stroke-opacity" values="0.1;0.3;0.1" dur="8s" repeatCount="indefinite" />
+                  <animate attributeName="r" values="85;100;85" dur="10s" repeatCount="indefinite" />
+                  <animate attributeName="stroke-opacity" values="0.1;0.4;0.1" dur="10s" repeatCount="indefinite" />
                 </circle>
                 
                 {/* Middle ring */}
                 <circle
-                  r="50"
+                  r="65"
                   fill="none"
                   stroke="#1e293b"
-                  strokeWidth="1.5"
+                  strokeWidth="2"
                   strokeOpacity="0.25"
-                  strokeDasharray="12,16"
+                  strokeDasharray="15,20"
                 >
-                  <animate attributeName="r" values="45;55;45" dur="6s" repeatCount="indefinite" />
+                  <animate attributeName="r" values="60;70;60" dur="8s" repeatCount="indefinite" />
                 </circle>
                 
-                {/* Core hub */}
+                {/* Core hub - Larger */}
                 <circle
-                  r="35"
+                  r="45"
                   fill="url(#meshGradient)"
                   stroke="white"
-                  strokeWidth="4"
+                  strokeWidth="5"
                   filter="url(#shadow)"
                   style={{ cursor: 'pointer' }}
                   onClick={() => setSelectedNode(calcguardNode)}
@@ -876,23 +997,23 @@ function EnterpriseArchitectureVisualization() {
                   onMouseLeave={() => setHoveredNode(null)}
                 />
                 
-                {/* Professional center icon */}
-                <g transform="scale(1.2)">
-                  <rect x="-12" y="-12" width="24" height="24" rx="6" fill="white" opacity="0.9"/>
-                  <rect x="-10" y="-10" width="20" height="20" rx="4" fill="none" stroke="#0f172a" strokeWidth="2"/>
-                  <circle cx="-5" cy="-5" r="2" fill="#3b82f6"/>
-                  <circle cx="5" cy="-5" r="2" fill="#3b82f6"/>
-                  <circle cx="-5" cy="5" r="2" fill="#3b82f6"/>
-                  <circle cx="5" cy="5" r="2" fill="#3b82f6"/>
-                  <rect x="-2" y="-2" width="4" height="4" rx="2" fill="#0f172a"/>
+                {/* Professional center icon - Larger */}
+                <g transform="scale(1.5)">
+                  <rect x="-15" y="-15" width="30" height="30" rx="8" fill="white" opacity="0.9"/>
+                  <rect x="-12" y="-12" width="24" height="24" rx="6" fill="none" stroke="#0f172a" strokeWidth="2"/>
+                  <circle cx="-6" cy="-6" r="3" fill="#3b82f6"/>
+                  <circle cx="6" cy="-6" r="3" fill="#3b82f6"/>
+                  <circle cx="-6" cy="6" r="3" fill="#3b82f6"/>
+                  <circle cx="6" cy="6" r="3" fill="#3b82f6"/>
+                  <rect x="-3" y="-3" width="6" height="6" rx="3" fill="#0f172a"/>
                 </g>
                 
-                <text textAnchor="middle" dy="52" fontSize="14" fontWeight="700" fill="#0f172a">
+                <text textAnchor="middle" dy="68" fontSize="16" fontWeight="700" fill="#0f172a">
                   CalcGuard Neural Mesh
                 </text>
               </g>
 
-              {/* Render entities */}
+              {/* Render entities - Larger spacing */}
               {Object.values(entities).flat().map(entity => {
                 const isHovered = hoveredNode === entity.id;
                 const isSelected = selectedNode?.id === entity.id;
@@ -906,13 +1027,13 @@ function EnterpriseArchitectureVisualization() {
                     onMouseEnter={() => setHoveredNode(entity.id)}
                     onMouseLeave={() => setHoveredNode(null)}
                   >
-                    {/* Entity background with gradient */}
+                    {/* Entity background with gradient - Larger */}
                     <circle
-                      r={isHovered || isSelected ? "32" : "28"}
+                      r={isHovered || isSelected ? "42" : "36"}
                       fill={entity.notConnected ? '#fef2f2' : 'url(#entityGradient)'}
                       stroke={entity.color}
-                      strokeWidth={entity.notConnected ? 3 : isHovered || isSelected ? 3 : 2}
-                      strokeDasharray={entity.notConnected ? '8,4' : 'none'}
+                      strokeWidth={entity.notConnected ? 4 : isHovered || isSelected ? 4 : 3}
+                      strokeDasharray={entity.notConnected ? '10,5' : 'none'}
                       filter={isHovered || isSelected ? "url(#shadow)" : "none"}
                       style={{ 
                         transition: 'all 0.3s ease',
@@ -920,10 +1041,10 @@ function EnterpriseArchitectureVisualization() {
                       }}
                     />
                     
-                    {/* Entity professional icon */}
-                    <g transform="scale(1)">
+                    {/* Entity professional icon - Larger */}
+                    <g transform="scale(1.2)">
                       <circle
-                        r="18"
+                        r="22"
                         fill={entity.color}
                         opacity={isHovered || isSelected ? "1" : "0.95"}
                         filter="url(#shadow)"
@@ -931,11 +1052,11 @@ function EnterpriseArchitectureVisualization() {
                       {renderIcon(entity, isHovered, isSelected)}
                     </g>
                     
-                    {/* Entity name with better typography */}
+                    {/* Entity name with better typography - More space */}
                     <text
                       textAnchor="middle"
-                      dy="48"
-                      fontSize="12"
+                      dy="58"
+                      fontSize="14"
                       fontWeight="700"
                       fill="#0f172a"
                       style={{ 
@@ -946,11 +1067,11 @@ function EnterpriseArchitectureVisualization() {
                       {entity.name}
                     </text>
                     
-                    {/* Entity type with professional styling */}
+                    {/* Entity type with professional styling - More space */}
                     <text
                       textAnchor="middle"
-                      dy="62"
-                      fontSize="10"
+                      dy="75"
+                      fontSize="11"
                       fill="#64748b"
                       fontWeight="500"
                       style={{ 
@@ -966,19 +1087,19 @@ function EnterpriseArchitectureVisualization() {
                     {entity.notConnected && (
                       <g>
                         <circle
-                          r="8"
-                          cx="22"
-                          cy="-22"
+                          r="10"
+                          cx="28"
+                          cy="-28"
                           fill="#dc2626"
                           stroke="white"
-                          strokeWidth="2"
+                          strokeWidth="3"
                           filter="url(#shadow)"
                         />
                         <text
-                          x="22"
-                          y="-18"
+                          x="28"
+                          y="-23"
                           textAnchor="middle"
-                          fontSize="10"
+                          fontSize="12"
                           fontWeight="700"
                           fill="white"
                         >
@@ -987,33 +1108,33 @@ function EnterpriseArchitectureVisualization() {
                       </g>
                     )}
                     
-                    {/* Professional hover details */}
+                    {/* Professional hover details - Larger */}
                     {isHovered && showDetails && (
                       <g>
                         <rect
-                          x="-85"
-                          y="-105"
-                          width="170"
-                          height="70"
+                          x="-100"
+                          y="-130"
+                          width="200"
+                          height="85"
                           fill="#0f172a"
-                          rx="12"
+                          rx="15"
                           opacity="0.96"
                           filter="url(#shadow)"
                         />
                         <rect
-                          x="-83"
-                          y="-103"
-                          width="166"
-                          height="66"
+                          x="-98"
+                          y="-128"
+                          width="196"
+                          height="81"
                           fill="none"
                           stroke="rgba(255,255,255,0.1)"
                           strokeWidth="1"
-                          rx="11"
+                          rx="14"
                         />
                         <text
                           textAnchor="middle"
-                          dy="-82"
-                          fontSize="11"
+                          dy="-100"
+                          fontSize="13"
                           fontWeight="700"
                           fill="white"
                           style={{ fontFamily: '"Inter", sans-serif' }}
@@ -1022,8 +1143,8 @@ function EnterpriseArchitectureVisualization() {
                         </text>
                         <text
                           textAnchor="middle"
-                          dy="-68"
-                          fontSize="9"
+                          dy="-83"
+                          fontSize="10"
                           fill="#cbd5e1"
                           fontWeight="500"
                           style={{ 
@@ -1037,8 +1158,8 @@ function EnterpriseArchitectureVisualization() {
                         {entity.aum && (
                           <text
                             textAnchor="middle"
-                            dy="-52"
-                            fontSize="10"
+                            dy="-65"
+                            fontSize="12"
                             fontWeight="600"
                             fill="#22c55e"
                             style={{ fontFamily: '"Inter", sans-serif' }}
@@ -1051,135 +1172,8 @@ function EnterpriseArchitectureVisualization() {
                   </g>
                 );
               })}
-            </svg>
-          </div>
-
-          {/* Professional Legend */}
-          <div style={{
-            background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
-            borderRadius: '20px',
-            padding: '24px',
-            boxShadow: '0 20px 60px rgba(0,0,0,0.08)',
-            border: '1px solid rgba(226,232,240,0.8)',
-            height: 'fit-content'
-          }}>
-            <h3 style={{
-              margin: '0 0 20px 0',
-              fontSize: '16px',
-              fontWeight: '700',
-              color: '#0f172a',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px'
-            }}>
-              <div style={{
-                width: '20px',
-                height: '20px',
-                background: 'linear-gradient(135deg, #ef4444, #dc2626)',
-                borderRadius: '4px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center'
-              }}>
-                <div style={{ width: '8px', height: '8px', background: 'white', borderRadius: '1px' }}></div>
-              </div>
-              Flow Classification
-            </h3>
-            
-            {[
-              { color: '#dc2626', label: 'Primary Execution', description: 'Core order routing and execution flows', icon: '→' },
-              { color: '#1f2937', label: 'Prime Services', description: 'Prime brokerage and institutional services', icon: '⚡' },
-              { color: '#1e40af', label: 'Technology Integration', description: 'System connectivity and data exchange', icon: '⚙️' },
-              { color: '#059669', label: 'Data Transparency', description: 'Transaction visibility and reporting', icon: '◈' },
-              { color: '#9ca3af', label: 'Neural Network', description: 'CalcGuard mesh connectivity', icon: '◊' }
-            ].map(({ color, label, description, icon }) => (
-              <div key={label} style={{
-                marginBottom: '14px',
-                padding: '14px',
-                borderRadius: '12px',
-                border: `1px solid ${color}20`,
-                background: `linear-gradient(135deg, ${color}08, ${color}05)`,
-                transition: 'all 0.2s ease'
-              }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '6px' }}>
-                  <div style={{
-                    width: '24px',
-                    height: '24px',
-                    background: `linear-gradient(135deg, ${color}, ${color}dd)`,
-                    borderRadius: '6px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    color: 'white',
-                    fontSize: '12px'
-                  }}>
-                    {icon}
-                  </div>
-                  <span style={{
-                    fontSize: '13px',
-                    fontWeight: '700',
-                    color: '#0f172a',
-                    fontFamily: '"Inter", sans-serif'
-                  }}>
-                    {label}
-                  </span>
-                </div>
-                <div style={{
-                  fontSize: '11px',
-                  color: '#64748b',
-                  lineHeight: '1.5',
-                  marginLeft: '36px',
-                  fontFamily: '"Inter", sans-serif'
-                }}>
-                  {description}
-                </div>
-              </div>
-            ))}
-            
-            <div style={{
-              marginTop: '24px',
-              padding: '16px',
-              background: 'linear-gradient(135deg, #f8fafc, #f1f5f9)',
-              borderRadius: '12px',
-              border: '1px solid #e2e8f0'
-            }}>
-              <h4 style={{
-                margin: '0 0 12px 0',
-                fontSize: '13px',
-                fontWeight: '700',
-                color: '#0f172a',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '6px'
-              }}>
-                <span style={{ fontSize: '14px' }}>💡</span>
-                Key Insights
-              </h4>
-              <div style={{
-                fontSize: '11px',
-                color: '#475569',
-                lineHeight: '1.6',
-                fontFamily: '"Inter", sans-serif'
-              }}>
-                <div style={{ marginBottom: '6px', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  <div style={{ width: '4px', height: '4px', background: '#dc2626', borderRadius: '50%' }}></div>
-                  <strong style={{ color: '#dc2626' }}>SSGA OMS:</strong> Isolated proprietary system
-                </div>
-                <div style={{ marginBottom: '6px', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  <div style={{ width: '4px', height: '4px', background: '#0f172a', borderRadius: '50%' }}></div>
-                  <strong style={{ color: '#0f172a' }}>CalcGuard:</strong> Universal data mesh coverage
-                </div>
-                <div style={{ marginBottom: '6px', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  <div style={{ width: '4px', height: '4px', background: '#059669', borderRadius: '50%' }}></div>
-                  <strong style={{ color: '#059669' }}>Transparency:</strong> End-to-end transaction visibility
-                </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  <div style={{ width: '4px', height: '4px', background: '#1e40af', borderRadius: '50%' }}></div>
-                  <strong style={{ color: '#1e40af' }}>Integration:</strong> Neural pathway architecture
-                </div>
-              </div>
-            </div>
-          </div>
+            </g>
+          </svg>
         </div>
       </div>
 
