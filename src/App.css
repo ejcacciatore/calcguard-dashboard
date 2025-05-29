@@ -8,28 +8,48 @@
   box-sizing: border-box;
 }
 
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow-x: auto;
+}
+
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* App Container */
+#root {
+  width: 100% !important;
+  min-height: 100vh !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* App Container - Updated for full width support */
 .app {
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
   min-height: 100vh;
   background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
 }
 
-/* Professional Navigation */
+/* Professional Navigation - Fixed position for enterprise view */
 .navigation {
   background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
   padding: 0;
   display: flex;
   align-items: center;
   box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-  position: sticky;
+  position: fixed; /* Changed from sticky to fixed */
   top: 0;
-  z-index: 100;
+  left: 0;
+  right: 0;
+  z-index: 1000; /* Increased z-index */
+  width: 100%;
 }
 
 .navigation button {
@@ -70,12 +90,41 @@ body {
   border-radius: 2px;
 }
 
+/* Enterprise Architecture Full Width Container */
+.enterprise-architecture-view {
+  width: 100vw !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  margin-top: 80px; /* Account for fixed navigation height */
+  position: relative;
+  overflow-x: auto;
+}
+
+/* Dashboard View - Constrained width */
+.dashboard-view {
+  max-width: 1400px;
+  margin: 80px auto 0 auto; /* Account for fixed navigation */
+  padding: 20px;
+  width: calc(100% - 40px);
+}
+
+/* Force enterprise component to use full width */
+.enterprise-architecture-view > div {
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
 /* Enterprise Header Styles */
 .enterprise-header {
   background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
   color: white;
   padding: 40px 50px;
   box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .enterprise-header h1 {
@@ -570,89 +619,6 @@ body {
   color: white;
 }
 
-/* Responsive Design */
-@media (max-width: 1200px) {
-  .flow-container {
-    flex-direction: column;
-    align-items: stretch;
-  }
-  
-  .stage-wrapper {
-    flex-direction: column;
-  }
-  
-  .arrow {
-    transform: rotate(90deg);
-  }
-  
-  .detail-panel {
-    position: fixed;
-    inset: 1rem;
-    width: auto;
-    transform: none;
-    max-height: none;
-  }
-}
-
-@media (max-width: 768px) {
-  .navigation {
-    flex-direction: column;
-    padding: 0;
-  }
-  
-  .navigation button {
-    width: 100%;
-    text-align: center;
-    padding: 16px;
-  }
-  
-  .header {
-    padding: 1rem;
-  }
-  
-  .header-content {
-    flex-direction: column;
-    text-align: center;
-    gap: 0.5rem;
-  }
-  
-  .timestamp {
-    margin-left: 0;
-    margin-top: 1rem;
-  }
-  
-  .metrics-dashboard {
-    grid-template-columns: 1fr;
-    padding: 0 1rem;
-  }
-  
-  .market-data-section {
-    padding: 0 1rem;
-  }
-  
-  .providers-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .flow-container {
-    margin: 1rem;
-    padding: 1rem;
-  }
-  
-  .stage {
-    min-width: auto;
-  }
-  
-  .calcguard-section {
-    margin: 1rem;
-    padding: 1rem;
-  }
-  
-  .features-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
 /* Animation Classes */
 .fade-in {
   animation: fadeIn 0.6s ease-in-out;
@@ -743,28 +709,125 @@ button:focus,
   }
 }
 
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .flow-container {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .stage-wrapper {
+    flex-direction: column;
+  }
+  
+  .arrow {
+    transform: rotate(90deg);
+  }
+  
+  .detail-panel {
+    position: fixed;
+    inset: 1rem;
+    width: auto;
+    transform: none;
+    max-height: none;
+  }
+  
+  .enterprise-architecture-view {
+    margin-top: 70px; /* Smaller top margin on mobile */
+  }
+  
+  .dashboard-view {
+    margin-top: 70px;
+  }
+}
+
+@media (max-width: 768px) {
+  .navigation {
+    flex-direction: column;
+    padding: 0;
+    position: fixed;
+    height: auto;
+  }
+  
+  .navigation button {
+    width: 100%;
+    text-align: center;
+    padding: 16px;
+  }
+  
+  .enterprise-architecture-view {
+    margin-top: 120px; /* Account for taller mobile navigation */
+  }
+  
+  .dashboard-view {
+    margin-top: 120px;
+    padding: 16px;
+    width: calc(100% - 32px);
+  }
+  
+  .header {
+    padding: 1rem;
+  }
+  
+  .header-content {
+    flex-direction: column;
+    text-align: center;
+    gap: 0.5rem;
+  }
+  
+  .timestamp {
+    margin-left: 0;
+    margin-top: 1rem;
+  }
+  
+  .metrics-dashboard {
+    grid-template-columns: 1fr;
+    padding: 0 1rem;
+  }
+  
+  .market-data-section {
+    padding: 0 1rem;
+  }
+  
+  .providers-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .flow-container {
+    margin: 1rem;
+    padding: 1rem;
+  }
+  
+  .stage {
+    min-width: auto;
+  }
+  
+  .calcguard-section {
+    margin: 1rem;
+    padding: 1rem;
+  }
+  
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Enterprise Architecture Specific Overrides */
+.enterprise-architecture-view .enterprise-header {
+  width: 100vw;
+  box-sizing: border-box;
+}
+
+.enterprise-architecture-view svg {
+  width: 100% !important;
+  max-width: none !important;
+}
+
 /* Reduced motion support */
 @media (prefers-reduced-motion: reduce) {
   * {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
-  }
-  /* Neural Architecture Full Width Override */
-.enterprise-architecture-container {
-  width: 100vw !important;
-  max-width: 100vw !important;
-  margin: 0 !important;
-  padding: 0 20px !important;
-}
-
-.enterprise-main-content {
-  width: 100% !important;
-  max-width: none !important;
-}
-
-  .enterprise-diagram-svg {
-    width: 100% !important;
-    max-width: 100% !important;
   }
 }

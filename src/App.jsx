@@ -104,10 +104,14 @@ function App() {
   const renderContent = () => {
     switch(currentView) {
       case 'enterprise':
-        return <EnterpriseArchitectureVisualization />;
+        return (
+          <div className="enterprise-architecture-view">
+            <EnterpriseArchitectureVisualization />
+          </div>
+        );
       case 'dashboard':
         return (
-          <>
+          <div className="dashboard-view">
             {/* Header */}
             <div className="header">
               <div className="header-content">
@@ -261,10 +265,14 @@ function App() {
                 </div>
               </div>
             )}
-          </>
+          </div>
         );
       case 'topology':
-        return <TopologyDiagram />;
+        return (
+          <div className="dashboard-view">
+            <TopologyDiagram />
+          </div>
+        );
       default:
         return <div>View not found</div>;
     }
