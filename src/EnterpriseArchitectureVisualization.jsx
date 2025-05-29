@@ -596,7 +596,7 @@ function EnterpriseArchitectureVisualization() {
             border: '1px solid rgba(226,232,240,0.8)',
             position: 'relative'
           }}>
-            
+            {/* You can add your website header, navigation, or any other global components here */}
             <svg
               width="900"
               height="750"

@@ -750,4 +750,21 @@ button:focus,
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+  /* Neural Architecture Full Width Override */
+.enterprise-architecture-container {
+  width: 100vw !important;
+  max-width: 100vw !important;
+  margin: 0 !important;
+  padding: 0 20px !important;
+}
+
+.enterprise-main-content {
+  width: 100% !important;
+  max-width: none !important;
+}
+
+  .enterprise-diagram-svg {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
 }
