@@ -22,8 +22,7 @@ import React, {
 } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import PropTypes from 'prop-types';
-
-import './App.css'; // <-- Keep CSS import after third-party imports
+import './App.css';
 
 const VIEWS = Object.freeze({
   ENTERPRISE: 'enterprise',
@@ -34,8 +33,6 @@ const VIEWS = Object.freeze({
 // Lazy load components for optimal performance
 const TopologyDiagram = lazy(() => import('./TopologyDiagram'));
 const EnterpriseArchitectureVisualization = lazy(() => import('./EnterpriseArchitectureVisualization'));
-
-
 
 /**
  * Navigation configuration for enterprise trading platform
@@ -1030,6 +1027,6 @@ function CalcGuardApp() {
       </div>
     </AppContext.Provider>
   );
-};
+}
 
 export default CalcGuardApp;
