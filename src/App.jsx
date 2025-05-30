@@ -22,12 +22,11 @@ import React, {
 } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import PropTypes from 'prop-types';
+import './App.css'; // <-- Move this up here
 
 // Lazy load components for optimal performance
 const TopologyDiagram = lazy(() => import('./TopologyDiagram'));
 const EnterpriseArchitectureVisualization = lazy(() => import('./EnterpriseArchitectureVisualization'));
-
-import './App.css';
 
 // ===========================================
 // CONSTANTS & CONFIGURATION
@@ -489,11 +488,13 @@ const usePerformanceMonitoring = () => {
  * Utility function for generating random performance metrics
  * In production, this would come from real-time data feeds
  */
-const generateRealtimeMetrics = useCallback(() => ({
-  throughput: Math.floor(Math.random() * 10000 + 5000),
-  latency: +(Math.random() * 2 + 0.5).toFixed(1),
-  uptime: +(99 + Math.random()).toFixed(2)
-}), []);
+function generateRealtimeMetrics() {
+  return {
+    throughput: Math.floor(Math.random() * 10000 + 5000),
+    latency: +(Math.random() * 2 + 0.5).toFixed(1),
+    uptime: +(99 + Math.random()).toFixed(2)
+  };
+}
 
 // ===========================================
 // COMPONENT DEFINITIONS
