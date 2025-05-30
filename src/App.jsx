@@ -23,11 +23,6 @@ import React, {
 import { ErrorBoundary } from 'react-error-boundary';
 import PropTypes from 'prop-types';
 import './App.css'; // <-- Move this up here
-
-// Lazy load components for optimal performance
-const TopologyDiagram = lazy(() => import('./TopologyDiagram'));
-const EnterpriseArchitectureVisualization = lazy(() => import('./EnterpriseArchitectureVisualization'));
-
 // ===========================================
 // CONSTANTS & CONFIGURATION
 // ===========================================
