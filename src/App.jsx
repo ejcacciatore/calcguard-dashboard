@@ -913,7 +913,7 @@ StageDetailPanel.displayName = 'StageDetailPanel';
 /**
  * Main Application Component with Enterprise Architecture
  */
-const CalcGuardApp = () => {
+function CalcGuardApp() {
   const [state, dispatch] = useReducer(appStateReducer, initialState);
   const { trackEvent } = useAnalytics();
 
