@@ -24,15 +24,15 @@ import { ErrorBoundary } from 'react-error-boundary';
 import PropTypes from 'prop-types';
 import './App.css';
 
+// Lazy load components for optimal performance
+const TopologyDiagram = lazy(() => import('./TopologyDiagram'));
+const EnterpriseArchitectureVisualization = lazy(() => import('./EnterpriseArchitectureVisualization'));
+
 const VIEWS = Object.freeze({
   ENTERPRISE: 'enterprise',
   DASHBOARD: 'dashboard',
   TOPOLOGY: 'topology'
 });
-
-// Lazy load components for optimal performance
-const TopologyDiagram = lazy(() => import('./TopologyDiagram'));
-const EnterpriseArchitectureVisualization = lazy(() => import('./EnterpriseArchitectureVisualization'));
 
 /**
  * Navigation configuration for enterprise trading platform
@@ -910,7 +910,7 @@ StageDetailPanel.displayName = 'StageDetailPanel';
 /**
  * Main Application Component with Enterprise Architecture
  */
-function CalcGuardApp() {
+const CalcGuardApp = () => {
   const [state, dispatch] = useReducer(appStateReducer, initialState);
   const { trackEvent } = useAnalytics();
 
