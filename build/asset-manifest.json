@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/calcguard-dashboard/static/css/main.1d7038c9.css",
+    "main.js": "/calcguard-dashboard/static/js/main.bdb4fc80.js",
+    "index.html": "/calcguard-dashboard/index.html",
+    "main.1d7038c9.css.map": "/calcguard-dashboard/static/css/main.1d7038c9.css.map",
+    "main.bdb4fc80.js.map": "/calcguard-dashboard/static/js/main.bdb4fc80.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.1d7038c9.css",
+    "static/js/main.bdb4fc80.js"
+  ]
+}
