@@ -276,7 +276,7 @@ body {
 .enterprise-header {
   background: var(--gradient-dark);
   color: var(--neutral-0);
-  padding: var(--spacing-12) var(--spacing-8);
+  padding: var(--spacing-8) var(--spacing-6);
   position: relative;
   overflow: hidden;
 }

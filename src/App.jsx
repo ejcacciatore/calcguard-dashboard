@@ -48,9 +48,9 @@ const VIEWS = Object.freeze({
 const NAVIGATION_CONFIG = Object.freeze([
   {
     id: VIEWS.ENTERPRISE,
-    label: 'Neural Architecture',
+    label: 'Mesh Architecture',
     icon: '🧠',
-    description: 'AI-powered trading infrastructure topology',
+    description: 'Siteless trading infrastructure topology',
     analyticsEvent: 'nav_enterprise_clicked'
   },
   {
@@ -975,7 +975,7 @@ const CalcGuardApp = () => {
               onClick={() => dispatch({ type: 'SET_VIEW', payload: VIEWS.ENTERPRISE })}
               className="control-button active"
             >
-              Return to Neural Architecture
+              Return to Mesh Architecture
             </button>
           </div>
         );
