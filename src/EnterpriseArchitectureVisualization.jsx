@@ -7,7 +7,7 @@ function EnterpriseArchitectureVisualization() {
   const [showDetails, setShowDetails] = useState(false);
   const [selectedLayer, setSelectedLayer] = useState(null);
   const [viewportSize, setViewportSize] = useState({ width: 1800, height: 1200 });
-  const [zoomLevel, setZoomLevel] = useState(0.8);
+  const [zoomLevel, setZoomLevel] = useState(0.7);
   const [panOffset, setPanOffset] = useState({ x: 0, y: 0 });
   const [isPanning, setIsPanning] = useState(false);
   const [panStart, setPanStart] = useState({ x: 0, y: 0 });
@@ -35,7 +35,7 @@ function EnterpriseArchitectureVisualization() {
   const handleZoomIn = () => setZoomLevel(prev => Math.min(prev + 0.2, 2.5));
   const handleZoomOut = () => setZoomLevel(prev => Math.max(prev - 0.2, 0.4));
   const handleResetZoom = () => {
-    setZoomLevel(0.8);
+    setZoomLevel(0.7);
     setPanOffset({ x: 0, y: 0 });
   };
 
@@ -178,8 +178,8 @@ function EnterpriseArchitectureVisualization() {
         type: 'Technology Services EMS',
         layer: 3,
         color: '#0891b2',
-        x: 450,
-        y: 520,
+        x: 550,
+        y: 460,
         description: 'Comprehensive outsourced trading and execution management services powered by FlexTrade technology platform.',
         keyMetrics: { custody: '$13.8T', clients: '22K+', coverage: 'Multi-Asset', algorithms: '45+' }
       },
