@@ -23,14 +23,19 @@ import React, {
 import { ErrorBoundary } from 'react-error-boundary';
 import PropTypes from 'prop-types';
 
-/**
- * Application views configuration
- */
+import './App.css'; // <-- Keep CSS import after third-party imports
+
 const VIEWS = Object.freeze({
   ENTERPRISE: 'enterprise',
   DASHBOARD: 'dashboard',
   TOPOLOGY: 'topology'
 });
+
+// Lazy load components for optimal performance
+const TopologyDiagram = lazy(() => import('./TopologyDiagram'));
+const EnterpriseArchitectureVisualization = lazy(() => import('./EnterpriseArchitectureVisualization'));
+
+
 
 /**
  * Navigation configuration for enterprise trading platform
@@ -458,20 +463,23 @@ const useAnalytics = () => {
 const usePerformanceMonitoring = () => {
   useEffect(() => {
     // Monitor performance metrics
-    const observer = new PerformanceObserver((list) => {
-      list.getEntries().forEach((entry) => {
-        if (entry.entryType === 'navigation') {
-          console.info('Navigation Performance:', {
-            loadTime: entry.loadEventEnd - entry.loadEventStart,
-            domContentLoaded: entry.domContentLoadedEventEnd - entry.domContentLoadedEventStart
-          });
-        }
+    if (typeof window !== 'undefined' && 'PerformanceObserver' in window) {
+      const observer = new window.PerformanceObserver((list) => {
+        list.getEntries().forEach((entry) => {
+          if (entry.entryType === 'navigation') {
+            console.info('Navigation Performance:', {
+              loadTime: entry.loadEventEnd - entry.loadEventStart,
+              domContentLoaded: entry.domContentLoadedEventEnd - entry.domContentLoadedEventStart
+            });
+          }
+        });
       });
-    });
 
-    observer.observe({ entryTypes: ['navigation', 'measure'] });
+      observer.observe({ entryTypes: ['navigation', 'measure'] });
 
-    return () => observer?.disconnect();
+      return () => observer.disconnect();
+    }
+    return undefined;
   }, []);
 };
 
@@ -972,7 +980,7 @@ function CalcGuardApp() {
           </div>
         );
     }
-  }, [state.currentView]);
+  }, [state.currentView, dispatch]);
 
   // Track initial app load
   useEffect(() => {
