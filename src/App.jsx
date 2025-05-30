@@ -22,10 +22,6 @@ import React, {
 } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import PropTypes from 'prop-types';
-import './App.css'; // <-- Move this up here
-// ===========================================
-// CONSTANTS & CONFIGURATION
-// ===========================================
 
 /**
  * Application views configuration
