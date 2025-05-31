@@ -711,7 +711,7 @@ MarketDataSection.displayName = 'MarketDataSection';
  * Trading Stages Flow Component
  */
 const TradingStagesFlow = React.memo(() => {
-  const { state, dispatch } = useAppContext();
+  const { dispatch } = useAppContext();
   const { trackEvent } = useAnalytics();
 
   const handleStageClick = useCallback((stage) => {
