@@ -178,8 +178,8 @@ function EnterpriseArchitectureVisualization() {
         type: 'Technology Services EMS',
         layer: 3,
         color: '#0891b2',
-        x: 550,
-        y: 460,
+        x: 590,
+        y: 440,
         description: 'Comprehensive outsourced trading and execution management services powered by FlexTrade technology platform.',
         keyMetrics: { custody: '$13.8T', clients: '22K+', coverage: 'Multi-Asset', algorithms: '45+' }
       },
@@ -391,7 +391,7 @@ function EnterpriseArchitectureVisualization() {
     name: 'CalcGuard',
     fullName: 'CalcGuard Neural Data Mesh Platform',
     x: 450,
-    y: 520,
+    y: 640,
     color: '#0f172a',
     description: 'Enterprise-grade distributed data mesh providing real-time transaction lifecycle visibility and neural pathway intelligence across the complete trading ecosystem.'
   };
@@ -1217,7 +1217,20 @@ function EnterpriseArchitectureVisualization() {
               { color: '#1f2937', label: 'Institutional Services', description: 'Prime brokerage and multi-broker access', icon: '⚡', active: activeFlowType === 'execution' || activeFlowType === 'all' },
               { color: '#be185d', label: 'Technology Platforms', description: 'Algo platforms and tech vendor access', icon: '🔧', active: activeFlowType === 'execution' || activeFlowType === 'all' },
               { color: '#1e40af', label: 'System Integration', description: 'EMS platforms and system connectivity', icon: '⚙️', active: activeFlowType === 'execution' || activeFlowType === 'all' },
-              { color: '#059669', label: 'Data & Reporting', description: 'Transaction visibility and compliance', icon: '◈', active: activeFlowType === 'data' || activeFlowType === 'all' },
+                       {
+                id: 'northern-trust-flextrade',
+                name: 'Northern Trust ITS', // <--- HERE
+                fullName: 'Northern Trust Investment Technology Services (FlexTrade EMS)',
+                category: 'Execution Management',
+                tier: 'Outsourced EMS',
+                type: 'Technology Services EMS',
+                layer: 3,
+                color: '#0891b2',
+                x: 550,
+                y: 460,
+                description: 'Comprehensive outsourced trading and execution management services powered by FlexTrade technology platform.',
+                keyMetrics: { custody: '$13.8T', clients: '22K+', coverage: 'Multi-Asset', algorithms: '45+' }
+              },     { color: '#059669', label: 'Data & Reporting', description: 'Transaction visibility and compliance', icon: '◈', active: activeFlowType === 'data' || activeFlowType === 'all' },
               { color: '#9ca3af', label: 'CalcGuard Mesh', description: 'Neural network data connectivity', icon: '◊', active: activeFlowType === 'neural' || activeFlowType === 'all' }
             ].map(({ color, label, description, icon, active }) => (
               <div key={label} style={{
