@@ -1,0 +1,17 @@
+{
+  "name": "CalcGuard Trading Platform",
+  "short_name": "CalcGuard",
+  "description": "Enterprise-grade trading infrastructure platform",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#3b82f6",
+  "orientation": "landscape-primary",
+  "icons": [
+    {
+      "src": "/vite.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
