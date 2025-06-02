@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/calcguard-dashboard/static/css/main.59b77905.css",
+    "main.css": "/calcguard-dashboard/static/css/main.17a2c644.css",
     "main.js": "/calcguard-dashboard/static/js/main.98d23f52.js",
     "static/js/906.033fce0e.chunk.js": "/calcguard-dashboard/static/js/906.033fce0e.chunk.js",
     "static/js/104.5e4aa9b5.chunk.js": "/calcguard-dashboard/static/js/104.5e4aa9b5.chunk.js",
     "index.html": "/calcguard-dashboard/index.html",
-    "main.59b77905.css.map": "/calcguard-dashboard/static/css/main.59b77905.css.map",
+    "main.17a2c644.css.map": "/calcguard-dashboard/static/css/main.17a2c644.css.map",
     "main.98d23f52.js.map": "/calcguard-dashboard/static/js/main.98d23f52.js.map",
     "906.033fce0e.chunk.js.map": "/calcguard-dashboard/static/js/906.033fce0e.chunk.js.map",
     "104.5e4aa9b5.chunk.js.map": "/calcguard-dashboard/static/js/104.5e4aa9b5.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.59b77905.css",
+    "static/css/main.17a2c644.css",
     "static/js/main.98d23f52.js"
   ]
 }
