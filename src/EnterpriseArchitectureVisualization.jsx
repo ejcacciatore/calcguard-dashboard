@@ -1067,23 +1067,25 @@ function EnterpriseArchitectureVisualization() {
                     >
                       {entity.name}
                     </text>
-                    
+
                     {/* Entity tier */}
-                    <text
-                      textAnchor="middle"
-                      dy="90"
-                      fontSize="12"
-                      fill="#64748b"
-                      fontWeight="500"
-                      style={{ 
-                        fontFamily: '"Inter", sans-serif',
-                        textTransform: 'uppercase',
-                        letterSpacing: '0.05em'
-                      }}
-                    >
-                      {entity.tier}
-                    </text>
-                    
+                    {entity.tier && (
+                      <text
+                        textAnchor="middle"
+                        dy="90"
+                        fontSize="12"
+                        fill="#64748b"
+                        fontWeight="500"
+                        style={{ 
+                          fontFamily: '"Inter", sans-serif',
+                          textTransform: 'uppercase',
+                          letterSpacing: '0.05em'
+                        }}
+                      >
+                        {entity.tier}
+                      </text>
+                    )}
+                                                        
                     {/* Connection indicator */}
                     {entity.notConnected && (
                       <g>
@@ -1213,26 +1215,13 @@ function EnterpriseArchitectureVisualization() {
             </h3>
             
             {[
-              { color: '#dc2626', label: 'Trade Execution', description: 'Core order routing and execution flows', icon: '→', active: activeFlowType === 'execution' || activeFlowType === 'all' },
-              { color: '#1f2937', label: 'Institutional Services', description: 'Prime brokerage and multi-broker access', icon: '⚡', active: activeFlowType === 'execution' || activeFlowType === 'all' },
-              { color: '#be185d', label: 'Technology Platforms', description: 'Algo platforms and tech vendor access', icon: '🔧', active: activeFlowType === 'execution' || activeFlowType === 'all' },
-              { color: '#1e40af', label: 'System Integration', description: 'EMS platforms and system connectivity', icon: '⚙️', active: activeFlowType === 'execution' || activeFlowType === 'all' },
-                       {
-                id: 'northern-trust-flextrade',
-                name: 'Northern Trust ITS', // <--- HERE
-                fullName: 'Northern Trust Investment Technology Services (FlexTrade EMS)',
-                category: 'Execution Management',
-                tier: 'Outsourced EMS',
-                type: 'Technology Services EMS',
-                layer: 3,
-                color: '#0891b2',
-                x: 550,
-                y: 460,
-                description: 'Comprehensive outsourced trading and execution management services powered by FlexTrade technology platform.',
-                keyMetrics: { custody: '$13.8T', clients: '22K+', coverage: 'Multi-Asset', algorithms: '45+' }
-              },     { color: '#059669', label: 'Data & Reporting', description: 'Transaction visibility and compliance', icon: '◈', active: activeFlowType === 'data' || activeFlowType === 'all' },
-              { color: '#9ca3af', label: 'CalcGuard Mesh', description: 'Neural network data connectivity', icon: '◊', active: activeFlowType === 'neural' || activeFlowType === 'all' }
-            ].map(({ color, label, description, icon, active }) => (
+  { color: '#dc2626', label: 'Trade Execution', description: 'Core order routing and execution flows', icon: '→', active: activeFlowType === 'execution' || activeFlowType === 'all' },
+  { color: '#1f2937', label: 'Institutional Services', description: 'Prime brokerage and multi-broker access', icon: '⚡', active: activeFlowType === 'execution' || activeFlowType === 'all' },
+  { color: '#be185d', label: 'Technology Platforms', description: 'Algo platforms and tech vendor access', icon: '🔧', active: activeFlowType === 'execution' || activeFlowType === 'all' },
+  { color: '#1e40af', label: 'System Integration', description: 'EMS platforms and system connectivity', icon: '⚙️', active: activeFlowType === 'execution' || activeFlowType === 'all' },
+  { color: '#059669', label: 'Data & Reporting', description: 'Transaction visibility and compliance', icon: '◈', active: activeFlowType === 'data' || activeFlowType === 'all' },
+  { color: '#9ca3af', label: 'CalcGuard Mesh', description: 'Neural network data connectivity', icon: '◊', active: activeFlowType === 'neural' || activeFlowType === 'all' }
+].map(({ color, label, description, icon, active }) => (
               <div key={label} style={{
                 marginBottom: '16px',
                 padding: '16px',

@@ -8,7 +8,8 @@
  * @version 2.0.0
  * @since 2024
  */
-
+// At the top of App.jsx
+import './mobile-fix.css';
 import React, { 
   useState, 
   useCallback, 
