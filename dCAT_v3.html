@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CalcGuard dCAT: Distributed Consolidated Audit Trail</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #1a2332;
+            color: #ffffff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+
+
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 80px 0;
+            background: linear-gradient(135deg, #1a2332 0%, #2c3e50 100%);
+        }
+
+        .hero-logo {
+            margin-bottom: 40px;
+        }
+
+        .hero-logo img {
+            height: 80px;
+            width: auto;
+            filter: brightness(0) invert(1);
+            opacity: 0.9;
+        }
+
+        .hero-content h1 {
+            font-size: clamp(3.5rem, 8vw, 7rem);
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 40px;
+        }
+
+        .hero-content .main-title {
+            color: #ffffff;
+        }
+
+        .hero-content .accent-title {
+            color: #1DB584;
+            margin-top: 20px;
+        }
+
+        .hero-description {
+            font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+            color: rgba(255, 255, 255, 0.8);
+            max-width: 800px;
+            margin: 0 auto 50px;
+            line-height: 1.6;
+        }
+
+        .cta-primary {
+            display: inline-block;
+            padding: 18px 40px;
+            background: #1DB584;
+            color: #1a2332;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(29, 181, 132, 0.3);
+        }
+
+        .cta-primary:hover {
+            background: #17a872;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(29, 181, 132, 0.4);
+        }
+
+        /* Section Styling */
+        .section {
+            padding: 100px 0;
+            position: relative;
+        }
+
+        .section:nth-child(even) {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .section h2 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 30px;
+            color: #ffffff;
+        }
+
+        .section-subtitle {
+            font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+            color: rgba(255, 255, 255, 0.7);
+            text-align: center;
+            margin-bottom: 80px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .section-accent {
+            color: #1DB584;
+        }
+
+        /* Problem Grid */
+        .problem-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .problem-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 40px 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .problem-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border-color: rgba(255, 71, 87, 0.5);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .problem-card .icon {
+            font-size: 3.5rem;
+            margin-bottom: 25px;
+            display: block;
+        }
+
+        .problem-card h4 {
+            color: #ff4757;
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .problem-card p {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.7;
+            font-size: 1rem;
+        }
+
+        /* Benefits Grid */
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .benefit-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 25px;
+            padding: 40px 30px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            border-left: 4px solid #1DB584;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .benefit-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .benefit-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(29, 181, 132, 0.2);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            flex-shrink: 0;
+        }
+
+        .benefit-content h5 {
+            color: #1DB584;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .benefit-content p {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.7;
+            font-size: 1rem;
+        }
+
+        /* Architecture Grid */
+        .arch-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .arch-component {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 40px 25px;
+            text-align: center;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .arch-component:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border-color: rgba(29, 181, 132, 0.5);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .arch-component .icon {
+            width: 80px;
+            height: 80px;
+            background: rgba(29, 181, 132, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.2rem;
+            margin: 0 auto 25px;
+            color: #1DB584;
+        }
+
+        .arch-component h4 {
+            color: #ffffff;
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .arch-component p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        /* Comparison Table */
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 60px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 25px 20px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .comparison-table th {
+            background: rgba(29, 181, 132, 0.2);
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .comparison-table tbody tr:hover {
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .comparison-table .traditional {
+            color: #ff6b7a;
+            font-weight: 500;
+        }
+
+        .comparison-table .calcguard {
+            color: #1DB584;
+            font-weight: 500;
+        }
+
+        .comparison-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Call to Action Section */
+        .cta-section {
+            background: linear-gradient(135deg, rgba(29, 181, 132, 0.1) 0%, rgba(255, 71, 87, 0.1) 100%);
+            border: 1px solid rgba(29, 181, 132, 0.3);
+            text-align: center;
+            padding: 80px 40px;
+            border-radius: 20px;
+            margin: 80px 0;
+            backdrop-filter: blur(10px);
+        }
+
+        .cta-section h2 {
+            margin-bottom: 25px;
+        }
+
+        .cta-section p {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: rgba(255, 255, 255, 0.8);
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 18px 40px;
+            background: #1DB584;
+            color: #1a2332;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            margin-top: 30px;
+        }
+
+        .cta-button:hover {
+            background: #17a872;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(29, 181, 132, 0.4);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {            
+            .container {
+                padding: 0 20px;
+            }
+            
+            .hero {
+                padding: 60px 0;
+            }
+
+            .hero-logo img {
+                height: 60px;
+            }
+            
+            .section {
+                padding: 80px 0;
+            }
+            
+            .problem-grid,
+            .benefits-grid,
+            .arch-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .comparison-table {
+                font-size: 0.9rem;
+            }
+            
+            .comparison-table th,
+            .comparison-table td {
+                padding: 15px 10px;
+            }
+            
+            .benefit-item {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        /* Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #1a2332;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #1DB584;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #17a872;
+        }
+
+        /* Background Pattern */
+        .section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 80%, rgba(29, 181, 132, 0.05) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(255, 71, 87, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-logo">
+                    <img src="public/vite.svg" alt="CalcGuard Logo" />
+                </div>
+                <h1>
+                    <div class="main-title">Re-architecting CAT:</div>
+                    <div class="main-title">From Centralized Cost Sink</div>
+                    <div class="accent-title">to Federated Utility</div>
+                </h1>
+                <div class="hero-description">
+                    A regulatory infrastructure proposal that requires SEC, FINRA, and SRO collaboration to transform 
+                    the Consolidated Audit Trail from a centralized compliance burden into a federated utility that serves the entire market ecosystem.
+                </div>
+                <a href="#challenges" class="cta-primary">Explore the Proposal</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Core Challenges -->
+    <section id="challenges" class="section">
+        <div class="container">
+            <h2>Addressing the <span class="section-accent">Core Challenges of CAT</span></h2>
+            <div class="section-subtitle">
+                Transforming regulatory infrastructure through federated architecture principles
+                <br><br>
+                <a href="https://www.optiver.com/insights/cat-costs-optiver-letter-sec/" target="_blank" style="color: #1DB584; text-decoration: underline; font-size: 1rem;">
+                    📄 Read the comprehensive analysis of CAT challenges
+                </a>
+            </div>
+            <div class="problem-grid">
+                <div class="problem-card fade-in">
+                    <span class="icon">💰</span>
+                    <h4>Ballooning Costs & Unclear Budgeting</h4>
+                    <p><strong>Shared Utility Model:</strong> A federated node architecture allows participants to share costs, distribute compute loads, and perform modular infrastructure upgrades.</p>
+                </div>
+                <div class="problem-card fade-in">
+                    <span class="icon">📈</span>
+                    <h4>Uncontrolled Scope Creep</h4>
+                    <p><strong>Controlled, Versioned Expansion:</strong> This model enforces strict, role-based data access with versioned APIs. New data fields must pass defined schemas, preventing uncontrolled add-ons.</p>
+                </div>
+                <div class="problem-card fade-in">
+                    <span class="icon">🏛️</span>
+                    <h4>Lack of Industry Governance</h4>
+                    <p><strong>Shared Oversight Protocol:</strong> A new governance model allows regulated participants and SROs to share oversight through transparent, auditable logs and stakeholder voting mechanisms.</p>
+                </div>
+                <div class="problem-card fade-in">
+                    <span class="icon">🔍</span>
+                    <h4>Opaque Decision-Making</h4>
+                    <p><strong>Radical Transparency:</strong> An open-source architecture with immutable audit logs and modular transparency layers provides clear visibility for the SEC, FINRA, and all participants.</p>
+                </div>
+                <div class="problem-card fade-in">
+                    <span class="icon">💸</span>
+                    <h4>High TCO & Indirect Costs</h4>
+                    <p><strong>Aligned Cost-to-Use:</strong> By enabling lightweight deployments for smaller broker-dealers and optimizing data handling, this approach significantly lowers the Total Cost of Ownership (TCO).</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technical Differentiators -->
+    <section id="technical" class="section">
+        <div class="container">
+            <h2>🔧 Proposed <span class="section-accent">Technical Architecture</span></h2>
+            <div class="section-subtitle">
+                A federated infrastructure framework requiring regulatory approval and industry collaboration
+            </div>
+            
+            <div class="benefits-grid">
+                <div class="benefit-item fade-in">
+                    <div class="benefit-icon">🔗</div>
+                    <div class="benefit-content">
+                        <h5>Encrypted Trade Lifecycle Graphs</h5>
+                        <p>Proposed architecture would replace raw logs with secure, context-rich graphs, enhancing data integrity and privacy while providing comprehensive order flow visibility.</p>
+                    </div>
+                </div>
+                <div class="benefit-item fade-in">
+                    <div class="benefit-icon">🔐</div>
+                    <div class="benefit-content">
+                        <h5>Granular, Permissioned Access</h5>
+                        <p>Would control data visibility at the individual event level for regulators, brokers, and exchanges through secure, federated access protocols.</p>
+                    </div>
+                </div>
+                <div class="benefit-item fade-in">
+                    <div class="benefit-icon">🎯</div>
+                    <div class="benefit-content">
+                        <h5>Built-in Surveillance Triggers</h5>
+                        <p>Would embed advanced surveillance capabilities like temporal clustering and intent-tagging for proactive oversight and real-time compliance monitoring.</p>
+                    </div>
+                </div>
+                <div class="benefit-item fade-in">
+                    <div class="benefit-icon">📊</div>
+                    <div class="benefit-content">
+                        <h5>Distributed Compliance Ledger</h5>
+                        <p>Would shift auditing from a post-hoc, forensic exercise to a real-time, continuous verification process with immutable audit trails.</p>
+                    </div>
+                </div>
+                <div class="benefit-item fade-in">
+                    <div class="benefit-icon">⚡</div>
+                    <div class="benefit-content">
+                        <h5>Real-Time Regulatory Access</h5>
+                        <p>Proposed infrastructure would enable millisecond-level regulatory queries while maintaining data sovereignty for market participants.</p>
+                    </div>
+                </div>
+                <div class="benefit-item fade-in">
+                    <div class="benefit-icon">🛡️</div>
+                    <div class="benefit-content">
+                        <h5>Federated Security Model</h5>
+                        <p>Zero-trust architecture ensuring participants maintain complete ownership and control of their data while meeting all regulatory requirements.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Regulatory Benefits -->
+    <section id="benefits" class="section">
+        <div class="container">
+            <h2>Regulatory <span class="section-accent">Benefits & Implementation</span></h2>
+            <div class="section-subtitle">
+                Why SEC, FINRA, and SROs should champion federated regulatory infrastructure
+            </div>
+            
+            <div class="benefits-grid">
+                <div class="benefit-item fade-in">
+                    <div class="benefit-icon">🏛️</div>
+                    <div class="benefit-content">
+                        <h5>Enhanced Regulatory Oversight</h5>
+                        <p>Real-time surveillance capabilities with built-in compliance triggers provide regulators with unprecedented visibility into market activity while maintaining participant data sovereignty.</p>
+                    </div>
+                </div>
+                <div class="benefit-item fade-in">
+                    <div class="benefit-icon">💰</div>
+                    <div class="benefit-content">
+                        <h5>Fiscal Responsibility</h5>
+                        <p>Shared utility model eliminates the cost explosion plaguing current CAT, providing transparent budgeting and aligned incentives across all stakeholders.</p>
+                    </div>
+                </div>
+                <div class="benefit-item fade-in">
+                    <div class="benefit-icon">🤝</div>
+                    <div class="benefit-content">
+                        <h5>Industry Collaboration</h5>
+                        <p>Democratic governance model gives industry participants meaningful representation while maintaining regulatory authority and oversight responsibilities.</p>
+                    </div>
+                </div>
+                <div class="benefit-item fade-in">
+                    <div class="benefit-icon">🔮</div>
+                    <div class="benefit-content">
+                        <h5>Future-Proof Architecture</h5>
+                        <p>Modular, extensible design accommodates evolving market structure, new trading mechanisms, and emerging regulatory requirements without costly overhauls.</p>
+                    </div>
+                </div>
+                <div class="benefit-item fade-in">
+                    <div class="benefit-icon">🔒</div>
+                    <div class="benefit-content">
+                        <h5>Enhanced Market Integrity</h5>
+                        <p>Immutable audit trails and continuous compliance monitoring strengthen market surveillance capabilities while reducing systemic risks.</p>
+                    </div>
+                </div>
+                <div class="benefit-item fade-in">
+                    <div class="benefit-icon">🌐</div>
+                    <div class="benefit-content">
+                        <h5>Global Competitiveness</h5>
+                        <p>Positions US markets as leaders in regulatory technology innovation, attracting global capital and maintaining competitive advantage in financial services.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Architecture Comparison -->
+    <section id="comparison" class="section">
+        <div class="container">
+            <h2>Current CAT <span class="section-accent">vs Proposed Federated dCAT</span></h2>
+            <div class="section-subtitle">
+                Transforming from centralized cost sink to shared intelligence utility through regulatory innovation
+            </div>
+            <table class="comparison-table fade-in">
+                <thead>
+                    <tr>
+                        <th>Aspect</th>
+                        <th>Current CAT</th>
+                        <th>Proposed Federated dCAT</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Cost Structure</strong></td>
+                        <td class="traditional">$200+M centralized costs, unclear budgeting</td>
+                        <td class="calcguard">Shared utility model with distributed compute loads</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Governance</strong></td>
+                        <td class="traditional">Opaque decision-making, no industry voice</td>
+                        <td class="calcguard">Shared oversight protocol with stakeholder voting</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Scope Control</strong></td>
+                        <td class="traditional">Uncontrolled expansion</td>
+                        <td class="calcguard">Controlled, versioned expansion with defined schemas</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Data Access</strong></td>
+                        <td class="traditional">Limited, batch-oriented reporting</td>
+                        <td class="calcguard">Granular, permissioned access with real-time capabilities</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Transparency</strong></td>
+                        <td class="traditional">Opaque operations and decision-making</td>
+                        <td class="calcguard">Radical transparency with immutable audit logs</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Architecture</strong></td>
+                        <td class="traditional">Centralized single point of failure</td>
+                        <td class="calcguard">Distributed compliance ledger with zero-trust security</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Implementation</strong></td>
+                        <td class="traditional">Existing system with ongoing challenges</td>
+                        <td class="calcguard">Requires SEC approval, FINRA collaboration, SRO partnership</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="section">
+        <div class="container">
+            <div class="cta-section fade-in">
+                <h2>🧭 The <span class="section-accent">Path Forward</span></h2>
+                <p>
+                    The industry needs a future for the Consolidated Audit Trail that is governed by principle-based rules, 
+                    robust industry engagement, and unwavering fiscal discipline.
+                </p>
+                <p>
+                    A federated architecture can deliver that future—with the right regulatory framework and industry collaboration.
+                </p>
+                <p style="font-size: 1rem; margin-bottom: 40px; opacity: 0.8;">
+                    This proposal provides a clear path to cost-effective compliance, gives the industry a meaningful seat at the governance table, 
+                    and future-proofs our market's regulatory infrastructure. Implementation requires SEC approval, FINRA collaboration, 
+                    and SRO partnership to transition from a centralized compliance burden into a shared intelligence utility.
+                </p>
+                <a href="#contact" class="cta-button">Join the Discussion</a>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Intersection Observer for fade-in animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        // Add fade-in class to elements and observe them
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Parallax effect for background
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const rate = scrolled * -0.5;
+            const heroElement = document.querySelector('.hero');
+            if (heroElement) {
+                heroElement.style.transform = `translateY(${rate}px)`;
+            }
+        });
+    </script>
+</body>
+</html>
